@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 
 class Modal extends Component {
+  onDisplay(isVisible) {
+    let $html = document.getElementsByTagName('html');
+    isVisible ? $html[0].classList.add('is-clipped') : $html[0].classList.remove('is-clipped');
+  }
+
+  handleClick(event) {
+      if (this.node.contains(event.target)) {
+          return;
+      }
+      this.props.onHidden();
+  }
+
   render() {
     const self = this;
-    console.log(self.props);
-    const { item, isVisible } = this.props;
+    const { item } = self.props;
+
+    self.onDisplay(self.props.isVisible);
 
     return (
-      <div className={`modal ${isVisible ? 'is-active' : ''}`}>
+      <div className={`modal ${self.props.isVisible ? 'is-active' : ''}`}
+      onClick={event => self.handleClick(event)}>
         <div className="modal-background"></div>
         <div className="modal-content">
-          <div className="box">
+          <div className="box" ref={node =>  self.node = node }>
             <article className="media">
               <div className="media-left">
                 <figure className="image is-2by3">
@@ -23,7 +37,7 @@ class Modal extends Component {
                     <strong>{item.title}</strong> <small>{item.authors.join(', ')}</small> - {item.publishedDate.split('-')[0]}
                     <br/>
                     <br/>
-                    {item.description.length > 300 ? `${item.description.substring(0, 280)}...` : item.description}
+                    {item.description.length > 500 ? `${item.description.substring(0, 496)}...` : item.description}
                   </p>
                 </div>
                 <nav className="level is-mobile">

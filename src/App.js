@@ -13,12 +13,14 @@ class App extends Component {
 
         this.state = {
             categorizedItems: {},
+            categoryCount: {},
             selectedTab: this.appConfig.header.menuOptions[0].id,
             itemOnModalID: '',
             isModalVisible: false
         }
         this.onTabChange = this.onTabChange.bind(this);
         this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
+        this.onHideMoreInfo = this.onHideMoreInfo.bind(this);
     }
 
     appConfig = {
@@ -45,8 +47,11 @@ class App extends Component {
     }
 
     onShowMoreInfo(itemID) {
-      console.log('yay!!!', itemID);
       this.setState({isModalVisible: true, itemOnModalID: itemID});
+    }
+
+    onHideMoreInfo(itemID) {
+      this.setState({isModalVisible: false});
     }
 
     componentDidMount() {
@@ -55,6 +60,8 @@ class App extends Component {
         const categories = this.appConfig.header.menuOptions.map(menu => menu.id);
 
         let categorizedItems = {}
+        let categoryCount = {}
+
         categories.forEach(category => categorizedItems[category] = []);
 
         this.setState({ categorizedItems });
@@ -69,7 +76,10 @@ class App extends Component {
                 if (!categorizedItems[category]) categorizedItems[category] = [];
                 categorizedItems[category].push(item);
             });
-            this.setState({ categorizedItems })
+
+            Object.keys(categorizedItems).forEach( key => categoryCount[key] = categorizedItems[key].length);
+
+            this.setState({ categorizedItems, categoryCount});
         })
     }
 
@@ -83,7 +93,7 @@ class App extends Component {
         const self = this;
         return (
           <div role="application">
-            <Header config={this.appConfig.header} onTabChange={self.onTabChange}/>
+            <Header config={this.appConfig.header} menuCounts={self.state.categoryCount} onTabChange={self.onTabChange}/>
             <main>
               {Object.keys(self.state.categorizedItems).map(category =>
                 <CategoryList key={category}
@@ -92,7 +102,7 @@ class App extends Component {
                 onShowMoreInfo={self.onShowMoreInfo}/>)}
             </main>
             <Footer config={this.appConfig.footer}/>
-            {self.state.itemOnModalID && <Modal item={self.getModalItem()} isVisible={self.state.isModalVisible}/>}
+            {self.state.itemOnModalID && <Modal item={self.getModalItem()} isVisible={self.state.isModalVisible} onHidden={self.onHideMoreInfo}/>}
           </div>
         );
 

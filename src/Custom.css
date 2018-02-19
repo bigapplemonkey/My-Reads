@@ -6616,8 +6616,9 @@ footer {
 .item-count {
   margin-left: 0.5rem; }
 
-body.no-scroll {
-  overflow: hidden; }
-
 .is-hidden {
   opacity: 0; }
+
+.media-content .content {
+  font-size: 0.9rem;
+  line-height: 1.3; }

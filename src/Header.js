@@ -16,7 +16,7 @@ class Header extends Component {
 
   render() {
     const self = this;
-    const config = self.props.config;
+    const { config, menuCounts } = self.props;
 
     return(
       <header className="hero is-warning">
@@ -44,7 +44,7 @@ class Header extends Component {
                       <a onClick={(event) => self.selectTab(option.id, event)}>
                         {option.id.includes('search') && <span className="icon is-small"><i className="fas fa-search-plus"></i></span>}
                         <h2>{option.title}</h2>
-                        {!option.id.includes('search') && <span class="item-count tag is-white is-rounded">7</span>}
+                        {(!option.id.includes('search') && menuCounts[option.id]) && <span className="item-count tag is-white is-rounded">{menuCounts[option.id]}</span>}
                       </a>
                     </li>
                     );

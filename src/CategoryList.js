@@ -35,8 +35,10 @@ class CategoryList extends Component {
 
   render() {
     const self = this;
+
     let categories = new Set([]);
     categories.add('All');
+
     self.props.items.forEach(item => {
       if(item.categories) item.categories.forEach(category => categories.add(category));
       else categories.add('No Category');
@@ -44,10 +46,12 @@ class CategoryList extends Component {
 
     let items = self.props.items;
 
-    if(self.state.category !== 'All') items = items.filter(item => {
-      if(item.categories) return item.categories.includes(self.state.category);
-      return self.state.category === 'No Category';
-    });
+    if(self.state.category !== 'All') {
+      items = items.filter(item => {
+        if(item.categories) return item.categories.includes(self.state.category);
+        return self.state.category === 'No Category';
+      });
+    }
 
     return(
       <section className={`container my-cards-container ${self.props.isVisible ? '' : 'is-hidden'}`}>

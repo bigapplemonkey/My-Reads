@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Rating from "./Rating";
 
 class Modal extends Component {
   onDisplay(isVisible) {
@@ -34,6 +35,9 @@ class Modal extends Component {
                 <figure className="image is-2by3">
                   <img src={item.imageLinks.thumbnail} alt="" />
                 </figure>
+                <div className="modal-rating">
+                 <Rating averageRating={item.averageRating} ratingsCount={item.ratingsCount ? item.ratingsCount : 0}/>
+                </div>
               </div>
               <div className="media-content">
                 <div className="content">

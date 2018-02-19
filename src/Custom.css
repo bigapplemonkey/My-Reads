@@ -6622,10 +6622,18 @@ footer {
 
 .my-search-clear {
   position: absolute;
-  height: 2.25em;
+  height: 2.25rem;
   top: 0;
   right: 0;
-  width: 2.25em; }
+  width: 2.25rem; }
+
+.modal-rating {
+  margin-top: 0.7rem; }
+
+.modal-rating .reviewers-count {
+  position: relative;
+  left: 3rem;
+  top: -1.4rem; }
 
 .is-hidden {
   opacity: 0; }

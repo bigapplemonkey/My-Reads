@@ -1,0 +1,158 @@
+@import "../node_modules/bulma/sass/utilities/initial-variables"
+@import "../node_modules/bulma/sass/utilities/functions"
+@import "../node_modules/bulma/sass/utilities/derived-variables.sass";
+
+//My variables
+$footer-color: $yellow-invert
+$footer-color-invert: findColorInvert($footer-color)
+$container-padding: 0 1.5rem 5rem 1.5rem
+$my-card-container-height: 500px
+$my-card-container-border-radius: 0 0 0.7rem 0.7rem
+$my-card-thumbnail-width: 98px
+$my-card-thumbnail-height: 147px
+$my-card-thumbnail-background: #ccc
+$my-card-thumbnail-background: #ccc
+$my-card-width: 265px
+$full-width: 100%
+$half-width: 50%
+$background-light-gray: #f5f5f5
+$my-dropdown-width: 100px
+
+%flex-container
+  display: flex
+  flex-wrap: wrap
+
+%full-flex-item
+  display: inline-block
+  width: $full-width
+
+
+//Update to Bulma variables
+$footer-background-color: $footer-color
+// $card-color: red
+
+@import "../node_modules/bulma/bulma.sass"
+
+//Local styling
+//main
+  //min-height: 450px
+  //padding: $container-padding
+
+section
+  background-color: $background-light-gray
+
+footer
+  color: $footer-color-invert
+
+.my-cards-container
+  min-height: $my-card-container-height
+  border-radius: $my-card-container-border-radius
+  margin-bottom: 100px;
+  padding: 1rem 2.5rem
+
+.my-cards-grid
+    padding: 0
+    margin: 0
+    //justify-content: center
+    @extend %flex-container
+
+.my-card-thumbnail
+  width: $my-card-thumbnail-width
+  height: $my-card-thumbnail-height
+  background-color: $my-card-thumbnail-background
+  background-size:     cover
+  background-repeat:   no-repeat
+  background-position: center top
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.8)),
+
+.my-card
+  padding: 0.6rem
+
+.my-card-content
+  width: $my-card-width
+  background-color: white
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
+  color: #4a4a4a
+  transition: 0.2s
+  @extend %flex-container
+  position: relative
+
+.my-card-content:hover
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2)
+
+.my-card-info
+  width: calc(100% - 98px)
+  padding: 0.7rem
+  position: relative
+  @extend %flex-container
+
+.my-card-header,
+.reviewer-count,
+.reviewer-icon
+  @extend %full-flex-item
+
+.my-card-title
+  color: #363636
+  font-weight: 700
+  font-size: 0.9rem
+
+.my-card-rating
+  position: absolute
+  bottom: 0.7rem
+  left: 0.7rem
+
+.my-card-more
+  position: absolute
+  width: 42px
+  background-color: white
+  border-radius: 0.7rem
+  line-height: 0
+  bottom: 0.6rem
+  left: 27px
+  box-shadow: 0 8px 6px -6px black
+
+.my-card-more:hover
+  color: #209cee
+  cursor: pointer
+
+.star-rating
+  color: gold
+  display: inline-block
+  font-size: 1.2rem
+  position: relative
+
+.star-rating__max,
+.star-rating__current
+  position: absolute
+  top: 0
+
+.star-rating__current
+  overflow: hidden
+  white-space: nowrap
+
+.reviewers-count
+  @extend %flex-container
+  position: absolute
+  justify-content: center
+  line-height: 0.4
+  left: 6.5rem
+  bottom: -0.2rem
+
+.dropdown-container
+  padding: 0.3rem
+  margin-bottom: 6px
+
+.media-left .image
+  margin-top: 0.4rem
+  min-width: 120px
+  min-height: 140px
+
+.item-count
+  margin-left: 0.5rem
+
+body.no-scroll
+  overflow: hidden
+
+
+.is-hidden
+  opacity: 0

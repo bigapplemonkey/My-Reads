@@ -26,6 +26,9 @@ $my-dropdown-width: 100px
   display: inline-block
   width: $full-width
 
+%transition-element
+  transition: all 0.2s ease-out
+
 
 //Update to Bulma variables
 $footer-background-color: $footer-color
@@ -34,12 +37,23 @@ $footer-background-color: $footer-color
 @import "../node_modules/bulma/bulma.sass"
 
 //Local styling
-//main
+main
+  position: relative
   //min-height: 450px
   //padding: $container-padding
 
+header
+  opacity: 0
+  transform: translateY(-1rem)
+
 section
+  //position: relative
+  // top: 0
   background-color: $background-light-gray
+  opacity: 0
+  display: none
+  transform: translateY(1rem)
+  //@extend %transition-element
 
 footer
   color: $footer-color-invert
@@ -66,7 +80,12 @@ footer
   background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.8)),
 
 .my-card
+  opacity: 0
+  transform: scale(0.9)
   padding: 0.6rem
+
+.my-card.is-visible
+  animation: card-show 0.2s 0.1s ease-in forwards
 
 .my-card-content
   width: $my-card-width
@@ -169,8 +188,56 @@ footer
   left: 3rem
   top: -1.4rem
 
+.modal-background
+  opacity: 0
+
+@keyframes background-show
+  100%
+    opacity: 1
+
+@keyframes content-show
+  100%
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes tabs-show
+  100%
+    opacity: 1
+    transform: translateX(0)
+
+@keyframes card-show
+  100%
+    opacity: 1
+    transform: scale(1)
+
+.is-active .modal-background
+  animation: background-show 0.2s ease-in forwards
+
+.modal .modal-content
+  opacity: 0
+  transform: translateY(-2rem)
+
+.modal.is-active .modal-content
+  animation: content-show 0.3s 0.1s ease-out forwards
+
+.hero-foot
+  opacity: 0
+  transform: translateX(-2rem)
+
+
+.is-visible.hero-foot
+  animation: tabs-show 0.4s 0.7s ease-out forwards
+
+.is-visible
+  //opacity: 1
+  display: block
+  animation: content-show 0.4s 0.1s ease-out forwards
+
+  //transform: translateY(0)
+
 .is-hidden
   opacity: 0
+
 
 .media-content .content
   font-size: 0.9rem

@@ -42,9 +42,9 @@ class Modal extends Component {
               <div className="media-content">
                 <div className="content">
                   <p>
-                    <strong>{item.title}</strong>{" "}
-                    <small>{item.authors.join(", ")}</small> -{" "}
-                    {item.publishedDate.split("-")[0]}
+                    <strong>{item.subtitle ? `${item.title}: ${item.subtitle}` : item.title}</strong>
+                    <br/>
+                    <small>{item.authors.join(", ")}</small> - {item.publishedDate.split("-")[0]}
                     <br />
                     <br />
                     {item.description.length > 500

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 class Search extends Component {
   clearValue() {
-    console.log("heyyyyy");
     this.input.value = "";
   }
 

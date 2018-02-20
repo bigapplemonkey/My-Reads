@@ -6514,8 +6514,18 @@ label.panel-block {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 3rem 1.5rem 6rem; }
 
+main {
+  position: relative; }
+
+header {
+  opacity: 0;
+  transform: translateY(-1rem); }
+
 section {
-  background-color: #f5f5f5; }
+  background-color: #f5f5f5;
+  opacity: 0;
+  display: none;
+  transform: translateY(1rem); }
 
 footer {
   color: #fff; }
@@ -6540,7 +6550,12 @@ footer {
   background: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.8)); }
 
 .my-card {
+  opacity: 0;
+  transform: scale(0.9);
   padding: 0.6rem; }
+
+.my-card.is-visible {
+  animation: card-show 0.2s 0.1s ease-in forwards; }
 
 .my-card-content {
   width: 265px;
@@ -6634,6 +6649,49 @@ footer {
   position: relative;
   left: 3rem;
   top: -1.4rem; }
+
+.modal-background {
+  opacity: 0; }
+
+@keyframes background-show {
+  100% {
+    opacity: 1; } }
+
+@keyframes content-show {
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes tabs-show {
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@keyframes card-show {
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+
+.is-active .modal-background {
+  animation: background-show 0.2s ease-in forwards; }
+
+.modal .modal-content {
+  opacity: 0;
+  transform: translateY(-2rem); }
+
+.modal.is-active .modal-content {
+  animation: content-show 0.3s 0.1s ease-out forwards; }
+
+.hero-foot {
+  opacity: 0;
+  transform: translateX(-2rem); }
+
+.is-visible.hero-foot {
+  animation: tabs-show 0.4s 0.7s ease-out forwards; }
+
+.is-visible {
+  display: block;
+  animation: content-show 0.4s 0.1s ease-out forwards; }
 
 .is-hidden {
   opacity: 0; }

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 class Header extends Component {
   state = {
-    selectTab: this.props.config.menuOptions[0].id
+    selectTab: this.props.config.menuOptions[0].id,
+    isVisible: false
   };
 
   selectTab(selectTab, event) {
@@ -13,12 +14,16 @@ class Header extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({isVisible: true});
+  }
+
   render() {
     const self = this;
     const { config, menuCounts } = self.props;
 
     return (
-      <header className="hero is-warning">
+      <header className={`hero is-warning ${self.state.isVisible ? 'is-visible' : ''}`}>
         <div className="hero-body">
           <div className="container">
             <div className="columns is-vcentered">
@@ -29,7 +34,7 @@ class Header extends Component {
             </div>
           </div>
         </div>
-        <div className="hero-foot">
+        <div className={`hero-foot ${self.state.isVisible ? 'is-visible' : ''}`}>
           <nav className="tabs is-boxed">
             <div className="container">
               <ul>

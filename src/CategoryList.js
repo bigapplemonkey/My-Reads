@@ -19,7 +19,6 @@ class CategoryList extends Component {
   }
 
   onShowMoreInfo(itemID) {
-    console.log(itemID);
     this.props.onShowMoreInfo(itemID);
   }
 
@@ -52,7 +51,7 @@ class CategoryList extends Component {
     return (
       <section
         className={`container my-cards-container ${
-          self.props.isVisible ? "" : "is-hidden"
+          self.props.isVisible ? "is-visible" : ""
         }`}
       >
         <div className="dropdown-container">
@@ -61,6 +60,34 @@ class CategoryList extends Component {
         </div>
         <ul className="my-cards-grid is-multiline is-vcentered">
           {items.map(item => (
+            <Card
+              key={item.id}
+              item={item}
+              onShowMoreInfo={self.onShowMoreInfo}
+            />
+          ))}
+        {items.map(item => (
+            <Card
+              key={item.id}
+              item={item}
+              onShowMoreInfo={self.onShowMoreInfo}
+            />
+          ))}
+        {items.map(item => (
+            <Card
+              key={item.id}
+              item={item}
+              onShowMoreInfo={self.onShowMoreInfo}
+            />
+          ))}
+        {items.map(item => (
+            <Card
+              key={item.id}
+              item={item}
+              onShowMoreInfo={self.onShowMoreInfo}
+            />
+          ))}
+        {items.map(item => (
             <Card
               key={item.id}
               item={item}

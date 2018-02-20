@@ -68,7 +68,7 @@ class App extends Component {
     this.setState({ categorizedItems });
 
     BooksAPI.getAll().then(items => {
-      console.log(items);
+      //console.log(items);
       let categorizedItems = {};
       items.forEach(item => {
         let category = categories.find(function(category) {

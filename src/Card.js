@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import Rating from "./Rating";
 
 class Card extends Component {
+  state = {
+    isVisible: false
+  }
   onShowMoreInfo(itemID) {
-    console.log(itemID);
     this.props.onShowMoreInfo(itemID);
+  }
+
+  componentDidMount() {
+    this.setState({isVisible: true});
   }
 
   render() {
@@ -12,7 +18,7 @@ class Card extends Component {
     const { item } = this.props;
 
     return (
-      <li className="my-card">
+      <li className={`my-card ${self.state.isVisible ? 'is-visible' : ''}`}>
         <div className="my-card-content">
           <div
             className="my-card-thumbnail"

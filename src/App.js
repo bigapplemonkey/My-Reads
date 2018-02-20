@@ -88,9 +88,10 @@ class App extends Component {
 
   getModalItem() {
     let allItems = [];
-    Object.values(this.state.categorizedItems).forEach(
-      items => (allItems = allItems.concat(items))
+    Object.keys(this.state.categorizedItems).map(
+      key => (allItems = allItems.concat(this.state.categorizedItems[key]))
     );
+
     return allItems.find(item => item.id === this.state.itemOnModalID);
   }
 
@@ -118,13 +119,14 @@ class App extends Component {
           ))}
         </main>
         <Footer config={this.appConfig.footer} />
-        {self.state.itemOnModalID && (
-          <Modal
-            item={self.getModalItem()}
-            isVisible={self.state.isModalVisible}
-            onHidden={self.onHideMoreInfo}
-          />
-        )}
+        {self.state.itemOnModalID &&
+          self.state.isModalVisible && (
+            <Modal
+              item={self.getModalItem()}
+              isVisible={self.state.isModalVisible}
+              onHidden={self.onHideMoreInfo}
+            />
+          )}
       </div>
     );
   }

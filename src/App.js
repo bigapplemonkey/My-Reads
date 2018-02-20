@@ -26,7 +26,7 @@ class App extends Component {
   appConfig = {
     header: {
       title: "My Reads",
-      subTitle: "Primary subtitle",
+      subTitle: "A Book Tracking App",
       menuOptions: [
         { title: "Currently Reading", id: "currentlyReading" },
         { title: "Want to Read", id: "wantToRead" },

@@ -6514,6 +6514,9 @@ label.panel-block {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 3rem 1.5rem 6rem; }
 
+.js-loading *:after {
+  animation-play-state: paused !important; }
+
 main {
   position: relative; }
 

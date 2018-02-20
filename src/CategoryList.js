@@ -66,34 +66,6 @@ class CategoryList extends Component {
               onShowMoreInfo={self.onShowMoreInfo}
             />
           ))}
-        {items.map(item => (
-            <Card
-              key={item.id}
-              item={item}
-              onShowMoreInfo={self.onShowMoreInfo}
-            />
-          ))}
-        {items.map(item => (
-            <Card
-              key={item.id}
-              item={item}
-              onShowMoreInfo={self.onShowMoreInfo}
-            />
-          ))}
-        {items.map(item => (
-            <Card
-              key={item.id}
-              item={item}
-              onShowMoreInfo={self.onShowMoreInfo}
-            />
-          ))}
-        {items.map(item => (
-            <Card
-              key={item.id}
-              item={item}
-              onShowMoreInfo={self.onShowMoreInfo}
-            />
-          ))}
         </ul>
       </section>
     );

@@ -6555,7 +6555,7 @@ footer {
   padding: 0.6rem; }
 
 .my-card.is-visible {
-  animation: card-show 0.2s 0.1s ease-in forwards; }
+  animation: card-show 0.2 s 0.1s ease-in forwards; }
 
 .my-card-content {
   width: 265px;

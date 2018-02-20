@@ -98,11 +98,15 @@ class App extends Component {
     const self = this;
     return (
       <div role="application">
-        <Header
-          config={this.appConfig.header}
-          menuCounts={self.state.categoryCount}
-          onTabChange={self.onTabChange}
-        />
+        {self.state.categorizedItems && self.state.categoryCount ? (
+          <Header
+            config={this.appConfig.header}
+            menuCounts={self.state.categoryCount}
+            onTabChange={self.onTabChange}
+          />
+        ) : (
+          ""
+        )}
         <main>
           {Object.keys(self.state.categorizedItems).map(category => (
             <CategoryList

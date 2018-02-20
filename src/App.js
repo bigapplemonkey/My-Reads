@@ -12,6 +12,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      isAppReady: false,
       categorizedItems: {},
       categoryCount: {},
       selectedTab: this.appConfig.header.menuOptions[0].id,
@@ -42,8 +43,6 @@ class App extends Component {
   };
 
   onTabChange(tab) {
-    // console.log(this)
-    // console.log(tab);
     this.setState({ selectedTab: tab });
   }
 
@@ -65,8 +64,6 @@ class App extends Component {
 
     categories.forEach(category => (categorizedItems[category] = []));
 
-    this.setState({ categorizedItems });
-
     BooksAPI.getAll().then(items => {
       //console.log(items);
       let categorizedItems = {};
@@ -82,7 +79,7 @@ class App extends Component {
         key => (categoryCount[key] = categorizedItems[key].length)
       );
 
-      this.setState({ categorizedItems, categoryCount });
+      this.setState({ categorizedItems: categorizedItems, categoryCount: categoryCount, isAppReady: true });
     });
   }
 
@@ -98,7 +95,7 @@ class App extends Component {
   render() {
     const self = this;
     return (
-      <div role="application">
+      <div role="application" className={`my-application ${self.state.isAppReady ? 'is-visible' : ''}`}>
         {self.state.categorizedItems && self.state.categoryCount ? (
           <Header
             config={this.appConfig.header}

@@ -5,6 +5,7 @@ class Card extends Component {
   state = {
     isVisible: false
   }
+
   onShowMoreInfo(itemID) {
     this.props.onShowMoreInfo(itemID);
   }

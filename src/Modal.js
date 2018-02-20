@@ -2,6 +2,25 @@ import React, { Component } from "react";
 import Rating from "./Rating";
 
 class Modal extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isVisible: false,
+      isImageLoaded: false
+    };
+
+    this.imageLoaded = this.imageLoaded.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({isVisible: true});
+  }
+
+  imageLoaded() {
+    this.setState({isImageLoaded: true});
+  }
+
   onDisplay(isVisible) {
     let $html = document.getElementsByTagName("html");
     isVisible
@@ -24,16 +43,19 @@ class Modal extends Component {
 
     return (
       <div
-        className={`modal ${self.props.isVisible ? "is-active" : ""}`}
+        className={`modal ${(self.props.isVisible && self.state.isVisible) ? "is-active" : ""}`}
         onClick={event => self.handleClick(event)}
       >
         <div className="modal-background" />
-        <div className="modal-content">
+        <div className={`modal-content ${self.state.isImageLoaded ? "with-image" : ""}`}>
           <div className="box" ref={node => (self.node = node)}>
             <article className="media">
               <div className="media-left">
                 <figure className="image is-2by3">
-                  <img src={item.imageLinks.thumbnail} alt="" />
+                  <img
+                    src={item.imageLinks.thumbnail} alt=""
+                    onLoad={self.imageLoaded}
+                  />
                 </figure>
                 <div className="modal-rating">
                  <Rating averageRating={item.averageRating} ratingsCount={item.ratingsCount ? item.ratingsCount : 0}/>

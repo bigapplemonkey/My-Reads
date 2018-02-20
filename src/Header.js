@@ -34,7 +34,7 @@ class Header extends Component {
             </div>
           </div>
         </div>
-        <div className={`hero-foot ${self.state.isVisible ? 'is-visible' : ''}`}>
+        <div className={`hero-foot ${(self.state.isVisible && menuCounts) ? 'is-visible' : ''}`}>
           <nav className="tabs is-boxed">
             <div className="container">
               <ul>

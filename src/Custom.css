@@ -6533,6 +6533,9 @@ section {
 footer {
   color: #fff; }
 
+.my-application {
+  opacity: 0; }
+
 .my-cards-container {
   min-height: 500px;
   border-radius: 0 0 0.7rem 0.7rem;
@@ -6656,7 +6659,7 @@ footer {
 .modal-background {
   opacity: 0; }
 
-@keyframes background-show {
+@keyframes opacity-show {
   100% {
     opacity: 1; } }
 
@@ -6676,25 +6679,34 @@ footer {
     transform: scale(1); } }
 
 .is-active .modal-background {
-  animation: background-show 0.2s ease-in forwards; }
+  animation: opacity-show 0.2s ease-in forwards; }
 
 .modal .modal-content {
   opacity: 0;
   transform: translateY(-2rem); }
 
-.modal.is-active .modal-content {
-  animation: content-show 0.3s 0.1s ease-out forwards; }
+.modal.is-active .modal-content.with-image {
+  animation: content-show 0.3s ease-out forwards; }
 
 .hero-foot {
   opacity: 0;
   transform: translateX(-2rem); }
 
-.is-visible.hero-foot {
-  animation: tabs-show 0.4s 0.7s ease-out forwards; }
+header.is-visible {
+  animation: content-show 0.4s 0.3s ease-out forwards; }
 
-.is-visible {
+.is-visible.hero-foot {
+  animation: content-show 0.3s 0.5s ease-out forwards; }
+
+.my-application.is-visible {
+  animation: opacity-show 20ms ease-out forwards; }
+
+section.is-visible {
   display: block;
-  animation: content-show 0.4s 0.1s ease-out forwards; }
+  animation: content-show 0.2s 0.1s ease-out forwards; }
+
+.my-card.is-visible {
+  animation: card-show 0.4s 0.2s ease-out forwards; }
 
 .is-hidden {
   opacity: 0; }

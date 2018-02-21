@@ -8,13 +8,13 @@ class DropDown extends Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
-
     this.state = {
       isExpanded: false,
       optionSelected: props.options[0]
     };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   handleClick() {

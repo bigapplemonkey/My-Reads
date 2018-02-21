@@ -8,7 +8,7 @@ const Footer = props => {
       <div className="container">
         <div className="content has-text-centered">
           <p>
-            {config.projectName} by{" "}
+            {`${config.projectName} by `}
             <a href={config.authorLink}>{config.authorName}</a>.
           </p>
         </div>

@@ -15,7 +15,7 @@ class Search extends Component {
             className="input"
             type="text"
             placeholder="Search"
-            ref={el => (self.input = el)}
+            ref={node => (self.input = node)}
             onChange={event => self.props.onUpdate(event.target.value.trim())}
           />
           <span className="icon is-small is-left">
@@ -26,7 +26,7 @@ class Search extends Component {
             <i className="fas fa-times" />
           </span>
         </p>
-        <div className="my-search-clear" onClick={() => self.clearValue()} />
+        <div className="my-search-clear" onClick={self.clearValue.bind(self)} />
       </div>
     );
   }

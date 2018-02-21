@@ -249,6 +249,28 @@ section.is-visible
 .my-card.is-visible
   animation: card-show 0.4s 0.2s ease-out forwards
 
+.dropdown-icon
+  margin-left: 1.1rem
+
+.dropdown.is-active .dropdown-menu
+  opacity: 0
+  transform: translateY(-1rem)
+  animation: content-show 0.2s ease-out forwards
+
+.my-card-dropdown .dropdown
+  position: absolute
+  top: 0
+  right: 0
+
+.my-card-dropdown button
+  border: none
+
+.my-card-dropdown button:hover
+  color: #209cee
+
+.disabled
+  background: #ddd
+
 .is-hidden
   opacity: 0
 

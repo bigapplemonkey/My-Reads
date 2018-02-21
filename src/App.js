@@ -22,6 +22,7 @@ class App extends Component {
     this.onTabChange = this.onTabChange.bind(this);
     this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
     this.onHideMoreInfo = this.onHideMoreInfo.bind(this);
+    this.onItemAction = this.onItemAction.bind(this);
   }
 
   appConfig = {
@@ -29,10 +30,10 @@ class App extends Component {
       title: "My Reads",
       subTitle: "A Book Tracking App",
       menuOptions: [
-        { title: "Currently Reading", id: "currentlyReading" },
-        { title: "Want to Read", id: "wantToRead" },
-        { title: "Read", id: "read" },
-        { title: "Search", id: "search" }
+        { value: "Currently Reading", id: "currentlyReading" },
+        { value: "Want to Read", id: "wantToRead" },
+        { value: "Read", id: "read" },
+        { value: "Search", id: "search" }
       ]
     },
     footer: {
@@ -79,7 +80,11 @@ class App extends Component {
         key => (categoryCount[key] = categorizedItems[key].length)
       );
 
-      this.setState({ categorizedItems: categorizedItems, categoryCount: categoryCount, isAppReady: true });
+      this.setState({
+        categorizedItems: categorizedItems,
+        categoryCount: categoryCount,
+        isAppReady: true
+      });
     });
   }
 
@@ -92,10 +97,31 @@ class App extends Component {
     return allItems.find(item => item.id === this.state.itemOnModalID);
   }
 
+  onItemAction(action) {
+    let newcategorizedItems = this.state.categorizedItems;
+    let item;
+    if(action.moveFrom) {
+      item = newcategorizedItems[action.moveFrom].filter(item => item.id === action.itemID);
+      newcategorizedItems[action.moveFrom] = newcategorizedItems[action.moveFrom].filter(item => item.id !== action.itemID);
+    }
+    if(action.moveTo && action.moveTo !== 'none') {
+      newcategorizedItems[action.moveTo].push(item[0]);
+    }
+    this.setState({categorizedItems: newcategorizedItems});
+  }
+
   render() {
     const self = this;
+    let categoryValues = self.appConfig.header.menuOptions.filter(
+      category => category.id !== "search"
+    );
     return (
-      <div role="application" className={`my-application ${self.state.isAppReady ? 'is-visible' : ''}`}>
+      <div
+        role="application"
+        className={`my-application ${
+          self.state.isAppReady ? "is-visible" : ""
+        }`}
+      >
         {self.state.categorizedItems && self.state.categoryCount ? (
           <Header
             config={this.appConfig.header}
@@ -110,6 +136,9 @@ class App extends Component {
             <CategoryList
               key={category}
               items={self.state.categorizedItems[category]}
+              category={category}
+              categoryValues={categoryValues}
+              onItemAction={self.onItemAction}
               isVisible={category === self.state.selectedTab}
               onShowMoreInfo={self.onShowMoreInfo}
             />

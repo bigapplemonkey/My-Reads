@@ -52,7 +52,7 @@ class Header extends Component {
                             <i className="fas fa-search-plus" />
                           </span>
                         )}
-                        <h2>{option.title}</h2>
+                        <h2>{option.value}</h2>
                         {!option.id.includes("search") &&
                           menuCounts[option.id] && (
                             <span className="item-count tag is-white is-rounded">

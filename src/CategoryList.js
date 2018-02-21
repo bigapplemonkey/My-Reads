@@ -15,7 +15,7 @@ class CategoryList extends Component {
   }
 
   onSelect(category) {
-    this.setState({ category });
+    this.setState({ category: category.id });
   }
 
   onShowMoreInfo(itemID) {
@@ -26,16 +26,22 @@ class CategoryList extends Component {
     console.log(query);
   }
 
+  componentDidMound() {
+    console.log("guuurllll");
+  }
+
   render() {
     const self = this;
 
-    let categories = new Set([]);
-    categories.add("All");
+    let categories = [];
+    categories.push({ value: "All", id: "All" });
 
     self.props.items.forEach(item => {
       if (item.categories)
-        item.categories.forEach(category => categories.add(category));
-      else categories.add("No Category");
+        item.categories.forEach(category =>
+          categories.push({ value: category, id: category })
+        );
+      else categories.push({ value: "No Category", id: "No Category" });
     });
 
     let items = self.props.items;
@@ -43,10 +49,22 @@ class CategoryList extends Component {
     if (self.state.category !== "All") {
       items = items.filter(item => {
         if (item.categories)
-          return item.categories.includes(self.state.category);
+          return item.categories
+            .map(category => category.toLowerCase())
+            .includes(self.state.category.toLowerCase());
         return self.state.category === "No Category";
       });
     }
+
+    let categoryValues = self.props.categoryValues.map(category => {
+      return {
+        value: category.value,
+        id: category.id,
+        isDisabled: category.id === self.props.category ? true : false
+      };
+    });
+
+    categoryValues.push({ value: "None", id: "none" });
 
     return (
       <section
@@ -56,14 +74,24 @@ class CategoryList extends Component {
       >
         <div className="dropdown-container">
           <Search onUpdate={self.onSearch} />
-          <DropDown options={categories} onSelect={this.onSelect} />
+          <DropDown
+            options={categories}
+            onSelect={this.onSelect}
+            isOrdered={true}
+          />
         </div>
         <ul className="my-cards-grid is-multiline is-vcentered">
           {items.map(item => (
             <Card
               key={item.id}
               item={item}
+              onItemAction={selected => {
+                selected["moveFrom"] = self.props.category;
+                selected["moveTo"] = selected.id;
+                self.props.onItemAction(selected);
+              }}
               onShowMoreInfo={self.onShowMoreInfo}
+              categoryValues={categoryValues}
             />
           ))}
         </ul>

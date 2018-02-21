@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import Rating from "./Rating";
+import DropDown from "./DropDown";
 
 class Card extends Component {
   state = {
     isVisible: false
-  }
+  };
 
   onShowMoreInfo(itemID) {
     this.props.onShowMoreInfo(itemID);
   }
 
   componentDidMount() {
-    this.setState({isVisible: true});
+    this.setState({ isVisible: true });
   }
 
   render() {
@@ -19,7 +20,7 @@ class Card extends Component {
     const { item } = this.props;
 
     return (
-      <li className={`my-card ${self.state.isVisible ? 'is-visible' : ''}`}>
+      <li className={`my-card ${self.state.isVisible ? "is-visible" : ""}`}>
         <div className="my-card-content">
           <div
             className="my-card-thumbnail"
@@ -39,6 +40,15 @@ class Card extends Component {
             </span>
           </div>
           <div className="my-card-info">
+            <div className="my-card-dropdown">
+              <DropDown
+                options={self.props.categoryValues}
+                onSelect={category => self.props.onItemAction(category)}
+                isRight={true}
+                onlyArrow={true}
+                itemID={item.id}
+              />
+            </div>
             <div className="my-card-header">
               <h3 className="my-card-title">{item.title}</h3>
               <p className="my-card-authors is-size-7">
@@ -46,7 +56,10 @@ class Card extends Component {
               </p>
             </div>
             <div className="my-card-rating">
-              <Rating averageRating={item.averageRating} ratingsCount={item.ratingsCount ? item.ratingsCount : 0}/>
+              <Rating
+                averageRating={item.averageRating}
+                ratingsCount={item.ratingsCount ? item.ratingsCount : 0}
+              />
             </div>
           </div>
         </div>

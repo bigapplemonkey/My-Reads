@@ -13,7 +13,9 @@ class DropDown extends Component {
 
     this.state = {
       isExpanded: false,
-      optionSelected: "All"
+      optionSelected: props.options
+        ? props.options[0]
+        : { value: "All", id: "All" }
     };
   }
 
@@ -30,8 +32,14 @@ class DropDown extends Component {
     }));
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleOutsideClick, false);
+  }
+
   onSelect(optionSelected) {
     this.setState({ optionSelected });
+    if (this.props.hasOwnProperty("itemID"))
+      optionSelected["itemID"] = this.props.itemID;
     this.props.onSelect(optionSelected);
   }
 
@@ -51,11 +59,24 @@ class DropDown extends Component {
   render() {
     const self = this;
 
+    let options = self.props.options.filter(
+      (thing, index, self) =>
+        self.findIndex(t => t.id.toLowerCase() === thing.id.toLowerCase()) ===
+        index
+    );
+
+    if (self.props.hasOwnProperty("isOrdered") && self.props.isOrdered)
+      options = options.sort((option1, option2) => {
+        let textA = option1.value.toUpperCase();
+        let textB = option2.value.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+
     return (
       <div
         className={`my-dropdown dropdown ${
-          this.state.isExpanded ? "is-active" : ""
-        }`}
+          self.props.isRight ? "is-right" : ""
+        } ${self.state.isExpanded ? "is-active" : ""}`}
       >
         <div
           className="dropdown-trigger"
@@ -70,13 +91,19 @@ class DropDown extends Component {
             aria-haspopup="true"
             aria-controls="dropdown-menu3"
           >
-            <span>
-              {self.state.optionSelected.replace(/\w\S*/g, function(txt) {
-                return (
-                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                );
-              })}
-            </span>
+            {self.props.onlyArrow ? (
+              ""
+            ) : (
+              <span>
+                {self.state.optionSelected.value.replace(/\w\S*/g, function(
+                  txt
+                ) {
+                  return (
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                  );
+                })}
+              </span>
+            )}
             <span className="icon is-small">
               <i className="fas fa-angle-down" aria-hidden="true" />
             </span>
@@ -84,28 +111,36 @@ class DropDown extends Component {
         </div>
         <div className="dropdown-menu" role="menu">
           <div className="dropdown-content">
-            {Array.from(self.props.options)
-              .sort()
-              .map(option => {
-                return (
-                  <a
-                    href=""
-                    key={option}
-                    className="dropdown-item"
-                    onClick={event => {
-                      event.preventDefault();
-                      self.onSelect(option, event);
-                    }}
-                  >
-                    {option.replace(/\w\S*/g, function(txt) {
-                      return (
-                        txt.charAt(0).toUpperCase() +
-                        txt.substr(1).toLowerCase()
-                      );
-                    })}
-                  </a>
-                );
-              })}
+            {options.map(option => {
+              return option.isDisabled ? (
+                <p key={option.id} className="dropdown-item disabled">
+                  {option.value.replace(/\w\S*/g, function(txt) {
+                    return (
+                      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                    );
+                  })}
+                  <span className="icon is-small dropdown-icon">
+                    <i className="fas fa-check" />
+                  </span>
+                </p>
+              ) : (
+                <a
+                  href=""
+                  key={option.id}
+                  className="dropdown-item"
+                  onClick={event => {
+                    event.preventDefault();
+                    self.onSelect(option, event);
+                  }}
+                >
+                  {option.value.replace(/\w\S*/g, function(txt) {
+                    return (
+                      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                    );
+                  })}
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>

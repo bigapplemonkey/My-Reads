@@ -37,10 +37,11 @@ $footer-background-color: $footer-color
 @import "../node_modules/bulma/bulma.sass"
 
 //Local styling
-.js-loading *
-.js-loading *:before
+.js-loading *,
+.js-loading *:before,
 .js-loading *:after
-  animation-play-state: paused !important
+  //animation-play-state: paused !important Safari seems not to support it
+  animation: none !important
 
 
 main

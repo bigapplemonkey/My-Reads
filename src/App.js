@@ -84,7 +84,7 @@ class App extends Component {
         categorizedItems: categorizedItems,
         categoryCount: categoryCount,
         isAppReady: true
-      });
+      }, () => document.body.className = document.body.className.replace("js-loading",""));
     });
   }
 

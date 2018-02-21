@@ -7,10 +7,6 @@ class Card extends Component {
     isVisible: false
   };
 
-  onShowMoreInfo(itemID) {
-    this.props.onShowMoreInfo(itemID);
-  }
-
   componentDidMount() {
     this.setState({ isVisible: true });
   }
@@ -19,21 +15,23 @@ class Card extends Component {
     const self = this;
     const { item } = this.props;
 
+    // Dynamic classes:
+    // show animation
+    const showClass = self.state.isVisible ? " is-visible" : "";
+    const imageStyling = {
+      background: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.4)), url(${
+        item.imageLinks.smallThumbnail
+      }) no-repeat center bottom`,
+      backgroundSize: "cover"
+    };
+
     return (
-      <li className={`my-card ${self.state.isVisible ? "is-visible" : ""}`}>
+      <li className={`my-card${showClass}`}>
         <div className="my-card-content">
-          <div
-            className="my-card-thumbnail"
-            style={{
-              background: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.4)), url(${
-                item.imageLinks.smallThumbnail
-              }) no-repeat center bottom`,
-              backgroundSize: "cover"
-            }}
-          />
+          <div className="my-card-thumbnail" style={imageStyling} />
           <div
             className="my-card-more has-text-centered"
-            onClick={() => self.onShowMoreInfo(item.id)}
+            onClick={() => self.props.onShowMoreInfo(item.id)}
           >
             <span className="icon">
               <i className="fas fa-ellipsis-h" />

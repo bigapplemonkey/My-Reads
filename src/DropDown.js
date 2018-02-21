@@ -43,6 +43,7 @@ class DropDown extends Component {
     document.removeEventListener("click", this.handleOutsideClick, false);
   }
 
+  // notify parent component
   onSelect(optionSelected, event) {
     event.preventDefault();
 
@@ -90,7 +91,7 @@ class DropDown extends Component {
     // Dynamic classes:
     // menu alignment
     const alignmentClass = self.props.isRight ? " is-right" : "";
-
+    // expanding class - trigger animation
     const expandedClass = self.state.isExpanded ? " is-active" : "";
 
     return (

@@ -10,20 +10,35 @@ class Header extends Component {
     event.preventDefault();
     if (selectTab !== this.state.selectTab) {
       this.setState({ selectTab });
+      // notify parent of tab change
       this.props.onTabChange(selectTab);
     }
   }
 
+  // help us trigger animation when show
   componentDidMount() {
-    this.setState({isVisible: true});
+    this.setState({ isVisible: true });
+  }
+
+  // TODO: might not need to use componentWillUpdate
+  componentWillUpdate() {
+    console.log(this.props.updatedCategory);
   }
 
   render() {
     const self = this;
     const { config, menuCounts } = self.props;
 
+    // Dynamic classes:
+    // header show animation
+    const showClass = self.state.isVisible ? " is-visible" : "";
+
+    // header footer show animation
+    const showFooterClass =
+      self.state.isVisible && menuCounts ? " is-visible" : "";
+
     return (
-      <header className={`hero is-warning ${self.state.isVisible ? 'is-visible' : ''}`}>
+      <header className={`hero is-warning${showClass}`}>
         <div className="hero-body">
           <div className="container">
             <div className="columns is-vcentered">
@@ -34,7 +49,7 @@ class Header extends Component {
             </div>
           </div>
         </div>
-        <div className={`hero-foot ${(self.state.isVisible && menuCounts) ? 'is-visible' : ''}`}>
+        <div className={`hero-foot${showFooterClass}`}>
           <nav className="tabs is-boxed">
             <div className="container">
               <ul>
@@ -53,12 +68,11 @@ class Header extends Component {
                           </span>
                         )}
                         <h2>{option.value}</h2>
-                        {!option.id.includes("search") &&
-                          menuCounts[option.id] && (
-                            <span className="item-count tag is-white is-rounded">
-                              {menuCounts[option.id]}
-                            </span>
-                          )}
+                        {!option.id.includes("search") && (
+                          <span className="item-count tag is-white is-rounded">
+                            {menuCounts[option.id]}
+                          </span>
+                        )}
                       </a>
                     </li>
                   );

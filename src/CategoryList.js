@@ -20,8 +20,8 @@ class CategoryList extends Component {
     console.log(query);
   }
 
-  componentDidMound() {
-    console.log("guuurllll");
+  componentDidMount() {
+    console.log("Test...");
   }
 
   render() {
@@ -79,11 +79,7 @@ class CategoryList extends Component {
             <Card
               key={item.id}
               item={item}
-              onItemAction={selected => {
-                selected["moveFrom"] = self.props.category;
-                selected["moveTo"] = selected.id;
-                self.props.onItemAction(selected);
-              }}
+              onItemAction={self.props.onItemAction}
               onShowMoreInfo={self.onShowMoreInfo.bind(self)}
               categoryValues={categoryValues}
             />

@@ -18,8 +18,9 @@ class App extends Component {
       selectedTab: this.appConfig.header.menuOptions[0].id,
       itemOnModalID: "",
       isModalVisible: false,
-      updatedCategory: ''
+      updatedCategory: ""
     };
+
     this.onTabChange = this.onTabChange.bind(this);
     this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
     this.onHideMoreInfo = this.onHideMoreInfo.bind(this);
@@ -44,6 +45,47 @@ class App extends Component {
     }
   };
 
+  componentDidMount() {
+    // getting app header from app config
+    document.title = this.appConfig.header.title;
+
+    this.getAllBooks((categorizedItems, categoryCount) => {
+      // remove the js-loading class so all animations start
+      this.setState(
+        {
+          categorizedItems: categorizedItems,
+          categoryCount: categoryCount,
+          isAppReady: true
+        },
+        () =>
+          (document.body.className = document.body.className.replace(
+            "js-loading",
+            ""
+          ))
+      );
+    });
+  }
+
+  getAllBooks(callback) {
+    // this.setState({
+    //   loading:true
+    // })
+    let categorizedItems = {};
+    let categoryCount = {};
+
+    BooksAPI.getAll().then(items => {
+      items.forEach(item => {
+        if (!categorizedItems[item.shelf]) categorizedItems[item.shelf] = [];
+        categorizedItems[item.shelf].push(item);
+      });
+
+      Object.keys(categorizedItems).forEach(
+        key => (categoryCount[key] = categorizedItems[key].length)
+      );
+      callback(categorizedItems, categoryCount);
+    });
+  }
+
   onTabChange(tab) {
     this.setState({ selectedTab: tab });
   }
@@ -56,39 +98,6 @@ class App extends Component {
     this.setState({ isModalVisible: false });
   }
 
-  componentDidMount() {
-    document.title = this.appConfig.header.title;
-
-    const categories = this.appConfig.header.menuOptions.map(menu => menu.id);
-
-    let categorizedItems = {};
-    let categoryCount = {};
-
-    categories.forEach(category => (categorizedItems[category] = []));
-
-    BooksAPI.getAll().then(items => {
-      //console.log(items);
-      let categorizedItems = {};
-      items.forEach(item => {
-        let category = categories.find(function(category) {
-          return category === item.shelf;
-        });
-        if (!categorizedItems[category]) categorizedItems[category] = [];
-        categorizedItems[category].push(item);
-      });
-
-      Object.keys(categorizedItems).forEach(
-        key => (categoryCount[key] = categorizedItems[key].length)
-      );
-
-      this.setState({
-        categorizedItems: categorizedItems,
-        categoryCount: categoryCount,
-        isAppReady: true
-      }, () => document.body.className = document.body.className.replace("js-loading",""));
-    });
-  }
-
   getModalItem() {
     let allItems = [];
     Object.keys(this.state.categorizedItems).map(
@@ -99,22 +108,15 @@ class App extends Component {
   }
 
   onItemAction(action) {
-    let newcategorizedItems = this.state.categorizedItems;
-    let newcategoryCount = this.state.categoryCount;
-    let item;
-    let newUpdatedCategory = '';
-
-    if(action.moveFrom) {
-      item = newcategorizedItems[action.moveFrom].filter(item => item.id === action.itemID);
-      newcategorizedItems[action.moveFrom] = newcategorizedItems[action.moveFrom].filter(item => item.id !== action.itemID);
-      newcategoryCount[action.moveFrom] =  newcategorizedItems[action.moveFrom].length;
-    }
-    if(action.moveTo && action.moveTo !== 'none') {
-      newcategorizedItems[action.moveTo].push(item[0]);
-      newcategoryCount[action.moveTo] = newcategorizedItems[action.moveTo].length;
-      newUpdatedCategory = action.moveTo;
-    }
-    this.setState({categorizedItems: newcategorizedItems, categoryCount: newcategoryCount, updatedCategory: newUpdatedCategory});
+    BooksAPI.update({ id: action.itemID }, action.id).then(response => {
+      this.getAllBooks((categorizedItems, categoryCount) => {
+        this.setState({
+          categorizedItems: categorizedItems,
+          categoryCount: categoryCount,
+          updatedCategory: action.id
+        });
+      });
+    });
   }
 
   render() {

@@ -4,11 +4,25 @@ import DropDown from "./DropDown";
 
 class Card extends Component {
   state = {
-    isVisible: false
+    isVisible: false,
+    isLeaving: false
   };
 
   componentDidMount() {
     this.setState({ isVisible: true });
+  }
+
+  onItemAction(category) {
+    if(!this.state.isLeaving) {
+      this.setState({ isLeaving: true});
+      this.props.onItemAction(category);
+    }
+  }
+
+  onShowMoreInfo(itemID) {
+    if(!this.state.isLeaving) {
+      this.props.onShowMoreInfo(itemID);
+    }
   }
 
   render() {
@@ -18,6 +32,10 @@ class Card extends Component {
     // Dynamic classes:
     // show animation
     const showClass = self.state.isVisible ? " is-visible" : "";
+
+    // leave animation
+    const leaveClass = self.state.isLeaving ? " is-leaving" : "";
+
     const imageStyling = {
       background: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.4)), url(${
         item.imageLinks.smallThumbnail
@@ -26,12 +44,13 @@ class Card extends Component {
     };
 
     return (
-      <li className={`my-card${showClass}`}>
+      <li className={`my-card${showClass}${leaveClass}`}>
         <div className="my-card-content">
+        <div className="loader"></div>
           <div className="my-card-thumbnail" style={imageStyling} />
           <div
             className="my-card-more has-text-centered"
-            onClick={() => self.props.onShowMoreInfo(item.id)}
+            onClick={() => self.onShowMoreInfo(item.id)}
           >
             <span className="icon">
               <i className="fas fa-ellipsis-h" />
@@ -41,7 +60,7 @@ class Card extends Component {
             <div className="my-card-dropdown">
               <DropDown
                 options={self.props.categoryValues}
-                onSelect={category => self.props.onItemAction(category)}
+                onSelect={category => self.onItemAction(category)}
                 isRight={true}
                 onlyArrow={true}
                 itemID={item.id}

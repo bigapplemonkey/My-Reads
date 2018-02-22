@@ -4,15 +4,9 @@ import DropDown from "./DropDown";
 import Search from "./Search";
 
 class CategoryList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       category: "All"
-    };
-    this.onSelect = this.onSelect.bind(this);
-    this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-  }
+  };
 
   onSelect(category) {
     this.setState({ category: category.id });
@@ -73,10 +67,10 @@ class CategoryList extends Component {
         }`}
       >
         <div className="dropdown-container">
-          <Search onUpdate={self.onSearch} />
+          <Search onUpdate={self.onSearch.bind(self)} />
           <DropDown
             options={categories}
-            onSelect={this.onSelect}
+            onSelect={self.onSelect.bind(self)}
             isOrdered={true}
           />
         </div>
@@ -90,7 +84,7 @@ class CategoryList extends Component {
                 selected["moveTo"] = selected.id;
                 self.props.onItemAction(selected);
               }}
-              onShowMoreInfo={self.onShowMoreInfo}
+              onShowMoreInfo={self.onShowMoreInfo.bind(self)}
               categoryValues={categoryValues}
             />
           ))}

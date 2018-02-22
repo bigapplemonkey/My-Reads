@@ -98,13 +98,13 @@ class DropDown extends Component {
       <div className={`my-dropdown dropdown ${alignmentClass}${expandedClass}`}>
         <div
           className="dropdown-trigger"
-          onClick={event => self.handleClick(event)}
           ref={node => (self.node = node)}
         >
           <button
             className="button"
             aria-haspopup="true"
             aria-controls="dropdown-menu"
+            onClick={self.handleClick}
           >
             {self.props.onlyArrow ? (
               ""

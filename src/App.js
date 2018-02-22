@@ -17,7 +17,8 @@ class App extends Component {
       categoryCount: {},
       selectedTab: this.appConfig.header.menuOptions[0].id,
       itemOnModalID: "",
-      isModalVisible: false
+      isModalVisible: false,
+      updatedCategory: ''
     };
     this.onTabChange = this.onTabChange.bind(this);
     this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
@@ -99,15 +100,21 @@ class App extends Component {
 
   onItemAction(action) {
     let newcategorizedItems = this.state.categorizedItems;
+    let newcategoryCount = this.state.categoryCount;
     let item;
+    let newUpdatedCategory = '';
+
     if(action.moveFrom) {
       item = newcategorizedItems[action.moveFrom].filter(item => item.id === action.itemID);
       newcategorizedItems[action.moveFrom] = newcategorizedItems[action.moveFrom].filter(item => item.id !== action.itemID);
+      newcategoryCount[action.moveFrom] =  newcategorizedItems[action.moveFrom].length;
     }
     if(action.moveTo && action.moveTo !== 'none') {
       newcategorizedItems[action.moveTo].push(item[0]);
+      newcategoryCount[action.moveTo] = newcategorizedItems[action.moveTo].length;
+      newUpdatedCategory = action.moveTo;
     }
-    this.setState({categorizedItems: newcategorizedItems});
+    this.setState({categorizedItems: newcategorizedItems, categoryCount: newcategoryCount, updatedCategory: newUpdatedCategory});
   }
 
   render() {
@@ -127,6 +134,7 @@ class App extends Component {
             config={this.appConfig.header}
             menuCounts={self.state.categoryCount}
             onTabChange={self.onTabChange}
+            updatedCategory={self.state.updatedCategory}
           />
         ) : (
           ""

@@ -5,11 +5,18 @@ import Search from "./Search";
 
 class CategoryList extends Component {
   state = {
-      category: "All"
+    category: "All",
+    isProcessing: false
   };
 
   onSelect(category) {
-    this.setState({ category: category.id });
+    if (category.id !== this.state.category) {
+      this.setState({ isProcessing: true }, () =>
+        this.setState({ category: category.id }, () => {
+          setTimeout(() => this.setState({ isProcessing: false }), 30);
+        })
+      );
+    }
   }
 
   onShowMoreInfo(itemID) {
@@ -27,8 +34,7 @@ class CategoryList extends Component {
   render() {
     const self = this;
 
-    let categories = [];
-    categories.push({ value: "All", id: "All" });
+    let categories = [{ value: "All", id: "All" }];
 
     self.props.items.forEach(item => {
       if (item.categories)
@@ -60,11 +66,16 @@ class CategoryList extends Component {
 
     categoryValues.push({ value: "None", id: "none" });
 
+    // Dynamic classes:
+    // show animation
+    const showClass = self.props.isVisible ? " is-visible" : "";
+
+    // show cards
+    const cardsShowClass = self.props.isProcessing ? " is-processing" : "";
+
     return (
       <section
-        className={`container my-cards-container ${
-          self.props.isVisible ? "is-visible" : ""
-        }`}
+        className={`container my-cards-container${showClass}${cardsShowClass}`}
       >
         <div className="dropdown-container">
           <Search onUpdate={self.onSearch.bind(self)} />
@@ -74,6 +85,7 @@ class CategoryList extends Component {
             isOrdered={true}
           />
         </div>
+        <div className="my-loader" />
         <ul className="my-cards-grid is-multiline is-vcentered">
           {items.map(item => (
             <Card
@@ -82,6 +94,7 @@ class CategoryList extends Component {
               onItemAction={self.props.onItemAction}
               onShowMoreInfo={self.onShowMoreInfo.bind(self)}
               categoryValues={categoryValues}
+              isProcessing={self.props.isProcessing || self.state.isProcessing}
             />
           ))}
         </ul>

@@ -18,7 +18,8 @@ class App extends Component {
       selectedTab: this.appConfig.header.menuOptions[0].id,
       itemOnModalID: "",
       isModalVisible: false,
-      updatedCategory: ""
+      updatedCategory: "",
+      isProcessing: false
     };
 
     this.onTabChange = this.onTabChange.bind(this);
@@ -67,9 +68,6 @@ class App extends Component {
   }
 
   getAllBooks(callback) {
-    // this.setState({
-    //   loading:true
-    // })
     let categorizedItems = {};
     let categoryCount = {};
 
@@ -99,22 +97,19 @@ class App extends Component {
   }
 
   getModalItem() {
-    let allItems = [];
-    Object.keys(this.state.categorizedItems).map(
-      key => (allItems = allItems.concat(this.state.categorizedItems[key]))
-    );
-
-    return allItems.find(item => item.id === this.state.itemOnModalID);
+    return this.state.categorizedItems[this.state.selectedTab].find(item => item.id === this.state.itemOnModalID);
   }
 
   onItemAction(action) {
+    this.setState({isProcessing: true});
+
     BooksAPI.update({ id: action.itemID }, action.id).then(response => {
       this.getAllBooks((categorizedItems, categoryCount) => {
         this.setState({
           categorizedItems: categorizedItems,
           categoryCount: categoryCount,
           updatedCategory: action.id
-        });
+        }, () => this.setState({isProcessing: false}));
       });
     });
   }
@@ -124,12 +119,15 @@ class App extends Component {
     let categoryValues = self.appConfig.header.menuOptions.filter(
       category => category.id !== "search"
     );
+
+    // Dynamic classes:
+    // app show class
+    const showClass = self.state.isAppReady ? " is-visible" : "";
+
     return (
       <div
         role="application"
-        className={`my-application ${
-          self.state.isAppReady ? "is-visible" : ""
-        }`}
+        className={`my-application${showClass}`}
       >
         {self.state.categorizedItems && self.state.categoryCount ? (
           <Header
@@ -151,6 +149,7 @@ class App extends Component {
               onItemAction={self.onItemAction}
               isVisible={category === self.state.selectedTab}
               onShowMoreInfo={self.onShowMoreInfo}
+              isProcessing={self.state.isProcessing}
             />
           ))}
         </main>

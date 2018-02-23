@@ -15,6 +15,7 @@ class App extends Component {
       isAppReady: false,
       categorizedItems: {},
       categoryCount: {},
+      queriedItems: [],
       selectedTab: this.appConfig.header.menuOptions[0].id,
       itemOnModalID: "",
       isModalVisible: false,
@@ -26,6 +27,7 @@ class App extends Component {
     this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
     this.onHideMoreInfo = this.onHideMoreInfo.bind(this);
     this.onItemAction = this.onItemAction.bind(this);
+    this.onSearch = this.onSearch.bind(this);
   }
 
   appConfig = {
@@ -104,10 +106,32 @@ class App extends Component {
     this.setState({ isModalVisible: false });
   }
 
+  onSearch(query) {
+    if (!query) {
+      this.setState({ queriedItems: [] });
+      return;
+    }
+
+    this.setState({ isProcessing: true });
+    BooksAPI.search(query).then(response => {
+      if (response) {
+        if (!response.error) {
+          this.setState({ queriedItems: response }, () =>
+            this.setState({ isProcessing: false })
+          );
+        } else this.setState({ isProcessing: false });
+      }
+    });
+  }
+
   getModalItem() {
-    return this.state.categorizedItems[this.state.selectedTab].find(
-      item => item.id === this.state.itemOnModalID
-    );
+    return this.state.selectedTab === "search"
+      ? this.state.queriedItems.find(
+          item => item.id === this.state.itemOnModalID
+        )
+      : this.state.categorizedItems[this.state.selectedTab].find(
+          item => item.id === this.state.itemOnModalID
+        );
   }
 
   onItemAction(item, moveTo, moveFrom) {
@@ -125,7 +149,7 @@ class App extends Component {
           }
 
           // remove item locally
-          if (moveFrom !== "none") {
+          if (!["none", "search"].includes(moveFrom)) {
             newCategorizedItems[moveFrom] = newCategorizedItems[
               moveFrom
             ].filter(prevItem => prevItem.id !== item.id);
@@ -175,6 +199,18 @@ class App extends Component {
               isProcessing={self.state.isProcessing}
             />
           ))}
+          <CategoryList
+            key="search"
+            isSearch={true}
+            items={self.state.queriedItems}
+            category="search"
+            categoryValues={this.categoryValues}
+            onItemAction={self.onItemAction}
+            isVisible={"search" === self.state.selectedTab}
+            onShowMoreInfo={self.onShowMoreInfo}
+            onSearch={self.onSearch}
+            isProcessing={self.state.isProcessing}
+          />
         </main>
         <Footer config={this.appConfig.footer} />
         {self.state.itemOnModalID &&

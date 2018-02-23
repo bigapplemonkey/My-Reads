@@ -46,13 +46,12 @@ class Card extends Component {
                 onSelect={category => self.props.onItemAction(category)}
                 isRight={true}
                 onlyArrow={true}
-                itemID={item.id}
               />
             </div>
             <div className="my-card-header">
               <h3 className="my-card-title">{item.title}</h3>
               <p className="my-card-authors is-size-7">
-                {item.authors.join(", ")}
+                {item.authors ? item.authors.join(", ") : 'Anonymous'}
               </p>
             </div>
             <div className="my-card-rating">

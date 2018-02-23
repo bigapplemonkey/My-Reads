@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class Search extends Component {
   clearValue() {
     this.input.value = "";
+    this.props.onUpdate("");
   }
 
   render() {

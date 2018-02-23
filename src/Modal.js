@@ -29,6 +29,7 @@ class Modal extends Component {
     if (this.node.contains(event.target)) {
       return;
     }
+    this.onDisplay(false);
     this.props.onHidden();
   }
 
@@ -46,6 +47,13 @@ class Modal extends Component {
 
     //trigger modal content animation
     const showContentClass = self.state.isImageLoaded ? " with-image" : "";
+
+    let itemDescription = "";
+    if (item.description) {
+      itemDescription = item.description.length > 500
+        ? `${item.description.substring(0, 496)}...`
+        : item.description;
+    }
 
     return (
       <div
@@ -80,13 +88,13 @@ class Modal extends Component {
                         : item.title}
                     </strong>
                     <br />
-                    <small>{item.authors.join(", ")}</small>
+                    <small>
+                      {item.authors ? item.authors.join(", ") : "Anonymous"}
+                    </small>
                     {` - ${item.publishedDate.split("-")[0]}`}
                     <br />
                     <br />
-                    {item.description.length > 500
-                      ? `${item.description.substring(0, 496)}...`
-                      : item.description}
+                    {itemDescription}
                   </p>
                 </div>
                 <nav className="level is-mobile">

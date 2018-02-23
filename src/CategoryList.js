@@ -68,7 +68,7 @@ class CategoryList extends Component {
       };
     });
 
-    categoryValues.push({ value: "None", id: "none" });
+    categoryValues.push({ value: "None", id: "none", isDisabled: self.props.category === "search"});
 
     // Dynamic classes:
     // show animation
@@ -93,7 +93,7 @@ class CategoryList extends Component {
         className={`container my-cards-container${showClass}${cardsShowClass}`}
       >
         <div className="dropdown-container">
-          <Search onUpdate={self.onSearch.bind(self)} />
+          {self.props.isSearch && <Search onUpdate={this.props.onSearch.bind(self)} />}
           <DropDown
             options={categories}
             onSelect={self.onSelect.bind(self)}

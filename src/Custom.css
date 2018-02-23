@@ -1,4 +1,4 @@
-.my-cards-grid, .my-card-content, .my-card-info, .reviewers-count {
+.my-cards-grid, .my-card-content, .my-card-info, .reviewers-count, .dropdown-container {
   display: flex;
   flex-wrap: wrap; }
 
@@ -6581,7 +6581,8 @@ footer {
 .my-card-title {
   color: #363636;
   font-weight: 700;
-  font-size: 0.9rem; }
+  font-size: 0.9rem;
+  width: 89%; }
 
 .my-card-rating {
   position: absolute;
@@ -6638,7 +6639,8 @@ footer {
 
 .my-search {
   max-width: 280px;
-  position: relative; }
+  position: relative;
+  margin-right: 0.8rem; }
 
 .my-search-clear {
   position: absolute;

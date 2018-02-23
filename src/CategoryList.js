@@ -13,7 +13,7 @@ class CategoryList extends Component {
     if (category.id !== this.state.category) {
       this.setState({ isProcessing: true }, () =>
         this.setState({ category: category.id }, () => {
-          setTimeout(() => this.setState({ isProcessing: false }), 30);
+          setTimeout(() => this.setState({ isProcessing: false }), 20);
         })
       );
     }

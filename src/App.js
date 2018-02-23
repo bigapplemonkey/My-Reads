@@ -46,6 +46,10 @@ class App extends Component {
     }
   };
 
+  categoryValues = this.appConfig.header.menuOptions.filter(
+    category => category.id !== "search"
+  );
+
   componentDidMount() {
     // getting app header from app config
     document.title = this.appConfig.header.title;
@@ -75,6 +79,11 @@ class App extends Component {
       items.forEach(item => {
         if (!categorizedItems[item.shelf]) categorizedItems[item.shelf] = [];
         categorizedItems[item.shelf].push(item);
+      });
+
+      this.categoryValues.forEach(category => {
+        if(!categorizedItems[category.id])
+          categorizedItems[category.id] = []
       });
 
       Object.keys(categorizedItems).forEach(
@@ -116,9 +125,6 @@ class App extends Component {
 
   render() {
     const self = this;
-    let categoryValues = self.appConfig.header.menuOptions.filter(
-      category => category.id !== "search"
-    );
 
     // Dynamic classes:
     // app show class
@@ -145,7 +151,7 @@ class App extends Component {
               key={category}
               items={self.state.categorizedItems[category]}
               category={category}
-              categoryValues={categoryValues}
+              categoryValues={this.categoryValues}
               onItemAction={self.onItemAction}
               isVisible={category === self.state.selectedTab}
               onShowMoreInfo={self.onShowMoreInfo}

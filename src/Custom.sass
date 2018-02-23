@@ -17,7 +17,7 @@ $full-width: 100%
 $half-width: 50%
 $background-light-gray: #f5f5f5
 $my-dropdown-width: 100px
-$loader-radio: 60px
+$loader-radio: 50px
 
 %flex-container
   display: flex
@@ -95,9 +95,6 @@ footer
   opacity: 0
   transform: scale(0.9)
   padding: 0.6rem
-
-.my-card.is-visible
-  animation: card-show 0.2 s 0.1s ease-in forwards
 
 .my-card-content
   width: $my-card-width
@@ -247,10 +244,10 @@ header.is-visible
 
 section.is-visible
   display: block
-  animation: content-show 0.2s 0.1s ease-out forwards
+  animation: content-show 0.3s 0.1s ease-out forwards
 
 .my-card.is-visible
-  animation: card-show 0.3s 0.2s ease-out forwards
+  animation: card-show 0.2s 0.2s linear forwards
 
 .dropdown-icon
   margin-left: 1.1rem
@@ -299,3 +296,17 @@ section.is-visible
 .is-processing .my-loader
   animation: spinAround 500ms infinite linear
   opacity: 1
+
+.no-items
+  margin-top: 40px
+  display: none
+  font-size: 1.5rem
+  opacity: 0
+  transform: translateY(0.5rem)
+
+.no-items.is-empty
+  display: block
+  animation: content-show 0.2s 0.2s ease-out forwards
+
+.fa-book
+  margin-right: 0.7rem

@@ -13,7 +13,7 @@ class CategoryList extends Component {
     if (category.id !== this.state.category) {
       this.setState({ isProcessing: true }, () =>
         this.setState({ category: category.id }, () => {
-          setTimeout(() => this.setState({ isProcessing: false }), 20);
+          setTimeout(() => this.setState({ isProcessing: false }), 10);
         })
       );
     }
@@ -28,7 +28,11 @@ class CategoryList extends Component {
   }
 
   componentDidMount() {
-    console.log("Test...");
+    console.log("Mounted...");
+  }
+
+  componentWillUnmount() {
+    console.log("Un-mounting...");
   }
 
   render() {
@@ -73,6 +77,17 @@ class CategoryList extends Component {
     // show cards
     const cardsShowClass = self.props.isProcessing ? " is-processing" : "";
 
+    //no items class
+    let emptyShowClass = "";
+    let noItemsMessage = "";
+    if (items.length === 0) {
+      emptyShowClass = " is-empty";
+      noItemsMessage =
+        self.state.category !== "All"
+          ? `No books in ${self.state.category}`
+          : "No books in this shelf";
+    }
+
     return (
       <section
         className={`container my-cards-container${showClass}${cardsShowClass}`}
@@ -86,12 +101,18 @@ class CategoryList extends Component {
           />
         </div>
         <div className="my-loader" />
+        <div className={`no-items has-text-centered${emptyShowClass}`}>
+          <i className="fas fa-book" />
+          <strong>{noItemsMessage}</strong>
+        </div>
         <ul className="my-cards-grid is-multiline is-vcentered">
           {items.map(item => (
             <Card
               key={item.id}
               item={item}
-              onItemAction={self.props.onItemAction}
+              onItemAction={category =>
+                self.props.onItemAction(item, category.id, self.props.category)
+              }
               onShowMoreInfo={self.onShowMoreInfo.bind(self)}
               categoryValues={categoryValues}
               isProcessing={self.props.isProcessing || self.state.isProcessing}

@@ -82,8 +82,7 @@ class App extends Component {
       });
 
       this.categoryValues.forEach(category => {
-        if(!categorizedItems[category.id])
-          categorizedItems[category.id] = []
+        if (!categorizedItems[category.id]) categorizedItems[category.id] = [];
       });
 
       Object.keys(categorizedItems).forEach(
@@ -106,20 +105,41 @@ class App extends Component {
   }
 
   getModalItem() {
-    return this.state.categorizedItems[this.state.selectedTab].find(item => item.id === this.state.itemOnModalID);
+    return this.state.categorizedItems[this.state.selectedTab].find(
+      item => item.id === this.state.itemOnModalID
+    );
   }
 
-  onItemAction(action) {
-    this.setState({isProcessing: true});
+  onItemAction(item, moveTo, moveFrom) {
+    this.setState({ isProcessing: true });
+    BooksAPI.update(item, moveTo).then(response => {
+      this.setState(
+        prevState => {
+          let newCategorizedItems = prevState.categorizedItems;
+          let newCategoryCount = prevState.categoryCount;
 
-    BooksAPI.update({ id: action.itemID }, action.id).then(response => {
-      this.getAllBooks((categorizedItems, categoryCount) => {
-        this.setState({
-          categorizedItems: categorizedItems,
-          categoryCount: categoryCount,
-          updatedCategory: action.id
-        }, () => this.setState({isProcessing: false}));
-      });
+          // add item locally
+          if (moveTo !== "none") {
+            newCategorizedItems[moveTo].push(item);
+            newCategoryCount[moveTo] = newCategorizedItems[moveTo].length;
+          }
+
+          // remove item locally
+          if (moveFrom !== "none") {
+            newCategorizedItems[moveFrom] = newCategorizedItems[
+              moveFrom
+            ].filter(prevItem => prevItem.id !== item.id);
+            newCategoryCount[moveFrom] = newCategorizedItems[moveFrom].length;
+          }
+
+          return {
+            categorizedItems: newCategorizedItems,
+            categoryCount: newCategoryCount,
+            updatedCategory: moveTo
+          };
+        },
+        () => this.setState({ isProcessing: false })
+      );
     });
   }
 
@@ -131,10 +151,7 @@ class App extends Component {
     const showClass = self.state.isAppReady ? " is-visible" : "";
 
     return (
-      <div
-        role="application"
-        className={`my-application${showClass}`}
-      >
+      <div role="application" className={`my-application${showClass}`}>
         {self.state.categorizedItems && self.state.categoryCount ? (
           <Header
             config={this.appConfig.header}

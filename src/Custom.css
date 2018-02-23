@@ -6563,9 +6563,6 @@ footer {
   transform: scale(0.9);
   padding: 0.6rem; }
 
-.my-card.is-visible {
-  animation: card-show 0.2 s 0.1s ease-in forwards; }
-
 .my-card-content {
   width: 265px;
   background-color: white;
@@ -6705,10 +6702,10 @@ header.is-visible {
 
 section.is-visible {
   display: block;
-  animation: content-show 0.2s 0.1s ease-out forwards; }
+  animation: content-show 0.3s 0.1s ease-out forwards; }
 
 .my-card.is-visible {
-  animation: card-show 0.3s 0.2s ease-out forwards; }
+  animation: card-show 0.2s 0.2s linear forwards; }
 
 .dropdown-icon {
   margin-left: 1.1rem; }
@@ -6743,13 +6740,13 @@ section.is-visible {
   border: 5px solid #f3f3f3;
   border-top: 5px solid rgba(0, 0, 0, 0.7);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   position: absolute;
   opacity: 0;
   transition: opacity 0.1s ease-out;
   top: 120px;
-  left: calc(50% - (60px/2)); }
+  left: calc(50% - (50px/2)); }
 
 .is-processing .my-cards-grid {
   opacity: 0; }
@@ -6757,3 +6754,17 @@ section.is-visible {
 .is-processing .my-loader {
   animation: spinAround 500ms infinite linear;
   opacity: 1; }
+
+.no-items {
+  margin-top: 40px;
+  display: none;
+  font-size: 1.5rem;
+  opacity: 0;
+  transform: translateY(0.5rem); }
+
+.no-items.is-empty {
+  display: block;
+  animation: content-show 0.2s 0.2s ease-out forwards; }
+
+.fa-book {
+  margin-right: 0.7rem; }

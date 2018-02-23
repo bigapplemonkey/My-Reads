@@ -21,9 +21,9 @@ class Header extends Component {
   }
 
   // TODO: might not need to use componentWillUpdate
-  componentWillUpdate() {
-    console.log(this.props.updatedCategory);
-  }
+  // componentWillUpdate() {
+  //   console.log(this.props.updatedCategory);
+  // }
 
   render() {
     const self = this;

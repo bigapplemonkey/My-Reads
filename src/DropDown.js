@@ -46,12 +46,7 @@ class DropDown extends Component {
   // notify parent component
   onSelect(optionSelected, event) {
     event.preventDefault();
-
     this.setState({ optionSelected });
-    // if the component relates to an item which ID could be used
-    if (this.props.hasOwnProperty("itemID"))
-      optionSelected["itemID"] = this.props.itemID;
-
     this.props.onSelect(optionSelected);
   }
 

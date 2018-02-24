@@ -182,6 +182,7 @@ class App extends Component {
             menuCounts={self.state.categoryCount}
             onTabChange={self.onTabChange}
             updatedCategory={self.state.updatedCategory}
+            isProcessing={self.state.isProcessing}
           />
         ) : (
           ""

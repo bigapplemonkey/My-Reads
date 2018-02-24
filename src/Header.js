@@ -69,7 +69,7 @@ class Header extends Component {
                         )}
                         <h2>{option.value}</h2>
                         {!option.id.includes("search") && (
-                          <span className="item-count tag is-white is-rounded">
+                          <span className={`item-count tag is-white is-rounded${!self.props.isProcessing && self.props.updatedCategory === option.id ? " pop-up" : ""}`}>
                             {menuCounts[option.id]}
                           </span>
                         )}

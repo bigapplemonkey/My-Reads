@@ -6679,6 +6679,25 @@ footer {
     opacity: 1;
     transform: scale(1); } }
 
+@keyframes pop-up {
+  20% {
+    transform: scale(1.1);
+    background-color: #23d160; }
+  30% {
+    transform: scale(1.2); }
+  40% {
+    transform: scale(1.6); }
+  70% {
+    transform: scale(1.2); }
+  80% {
+    transform: scale(1.1); }
+  100% {
+    transform: scale(1);
+    background-color: white; } }
+
+.pop-up {
+  animation: pop-up 1s cubic-bezier(0.25, 1.34, 0.63, 1.59) forwards; }
+
 .is-active .modal-background {
   animation: opacity-show 0.2s ease-in forwards; }
 

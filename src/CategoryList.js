@@ -80,7 +80,7 @@ class CategoryList extends Component {
     //no items class
     let emptyShowClass = "";
     let noItemsMessage = "";
-    if (items.length === 0) {
+    if (items.length === 0 && !self.props.isProcessing) {
       emptyShowClass = " is-empty";
       noItemsMessage =
         self.state.category !== "All"

@@ -50,9 +50,10 @@ class Modal extends Component {
 
     let itemDescription = "";
     if (item.description) {
-      itemDescription = item.description.length > 500
-        ? `${item.description.substring(0, 496)}...`
-        : item.description;
+      itemDescription =
+        item.description.length > 500
+          ? `${item.description.substring(0, 496)}...`
+          : item.description;
     }
 
     return (
@@ -67,7 +68,11 @@ class Modal extends Component {
               <div className="media-left">
                 <figure className="image is-2by3">
                   <img
-                    src={item.imageLinks.thumbnail}
+                    src={
+                      item.imageLinks
+                        ? item.imageLinks.thumbnail
+                        : "/image_holder_opt.png"
+                    }
                     alt={item.title}
                     onLoad={self.imageLoaded.bind(self)}
                   />
@@ -91,7 +96,9 @@ class Modal extends Component {
                     <small>
                       {item.authors ? item.authors.join(", ") : "Anonymous"}
                     </small>
-                    {` - ${item.publishedDate.split("-")[0]}`}
+                    {item.publishedDate
+                      ? ` - ${item.publishedDate.split("-")[0]}`
+                      : ""}
                     <br />
                     <br />
                     {itemDescription}

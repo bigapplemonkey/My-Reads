@@ -6581,13 +6581,13 @@ footer {
 .my-card-title {
   color: #363636;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   width: 89%; }
 
 .my-card-rating {
   position: absolute;
-  bottom: 0.7rem;
-  left: 0.7rem; }
+  bottom: 0.4rem;
+  left: 0.9rem; }
 
 .my-card-more {
   position: absolute;

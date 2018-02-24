@@ -20,11 +20,23 @@ class Card extends Component {
     const showClass =
       self.state.isVisible && !self.props.isProcessing ? " is-visible" : "";
 
+    let imagePath;
+    let fitType;
+    let verticalAlign;
+
+    if (item.imageLinks && item.imageLinks.smallThumbnail) {
+      imagePath = item.imageLinks.smallThumbnail;
+      fitType = "cover";
+      verticalAlign = "bottom";
+    } else {
+      imagePath = "/image_holder_opt.png";
+      fitType = "auto";
+      verticalAlign = "center";
+    }
+
     const imageStyling = {
-      background: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.4)), url(${
-        item.imageLinks.smallThumbnail
-      }) no-repeat center bottom`,
-      backgroundSize: "cover"
+      background: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.4)), url(${imagePath}) no-repeat center ${verticalAlign}`,
+      backgroundSize: fitType
     };
 
     return (
@@ -51,7 +63,7 @@ class Card extends Component {
             <div className="my-card-header">
               <h3 className="my-card-title">{item.title}</h3>
               <p className="my-card-authors is-size-7">
-                {item.authors ? item.authors.join(", ") : 'Anonymous'}
+                {item.authors ? item.authors.join(", ") : "Anonymous"}
               </p>
             </div>
             <div className="my-card-rating">

@@ -9,6 +9,12 @@ class CategoryList extends Component {
     isProcessing: false
   };
 
+  componentDidMount() {
+    // getting app header from the config
+    document.title = this.props.pageTitle;
+    this.props.onDisplay(this.props.category);
+  }
+
   onSelect(category) {
     if (category.id !== this.state.category) {
       this.setState({ isProcessing: true }, () =>
@@ -30,28 +36,20 @@ class CategoryList extends Component {
     this.props.onSearch(query);
   }
 
-  componentDidMount() {
-    console.log("Mounted...");
-  }
-
-  componentWillUnmount() {
-    console.log("Un-mounting...");
-  }
-
   render() {
     const self = this;
 
     let categories = [{ value: "All", id: "All" }];
 
-    self.props.items.forEach(item => {
+    let items = self.props.items ? self.props.items : [];
+
+    items.forEach(item => {
       if (item.categories)
         item.categories.forEach(category =>
           categories.push({ value: category, id: category })
         );
       else categories.push({ value: "No Category", id: "No Category" });
     });
-
-    let items = self.props.items;
 
     if (self.state.category !== "All") {
       items = items.filter(item => {
@@ -65,7 +63,7 @@ class CategoryList extends Component {
 
     // Dynamic classes:
     // show animation
-    const showClass = self.props.isVisible ? " is-visible" : "";
+    const showClass = true ? " is-visible" : "";
 
     // show cards
     const cardsShowClass = self.props.isProcessing ? " is-processing" : "";

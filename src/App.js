@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Route } from 'react-router-dom';
 import * as BooksAPI from "./BooksAPI";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -26,7 +27,7 @@ class App extends Component {
       searchIsProcessing: false
     };
 
-    this.onTabChange = this.onTabChange.bind(this);
+    this.onCategoryListDisplay = this.onCategoryListDisplay.bind(this);
     this.onShowMoreInfo = this.onShowMoreInfo.bind(this);
     this.onHideMoreInfo = this.onHideMoreInfo.bind(this);
     this.onItemAction = this.onItemAction.bind(this);
@@ -74,9 +75,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // getting app header from app config
-    document.title = this.appConfig.header.title;
-
     this.getAllBooks((categorizedItems, categoryCount) => {
       // remove the js-loading class so all animations start
       this.setState(
@@ -115,16 +113,16 @@ class App extends Component {
     });
   }
 
-  onTabChange(tab) {
-    this.setState({ selectedTab: tab });
-  }
-
   onShowMoreInfo(itemID) {
     this.setState({ isModalVisible: true, itemOnModalID: itemID });
   }
 
   onHideMoreInfo(itemID) {
     this.setState({ isModalVisible: false });
+  }
+
+  onCategoryListDisplay(category) {
+    this.setState({ selectedTab: category });
   }
 
   onSearch(query) {
@@ -194,45 +192,34 @@ class App extends Component {
 
     return (
       <div role="application" className={`my-application${showClass}`}>
-        {self.state.categorizedItems && self.state.categoryCount ? (
-          <Header
+        <Header
             config={self.appConfig.header}
             menuCounts={self.state.categoryCount}
-            onTabChange={self.onTabChange}
+            selectedTab={self.state.selectedTab}
             updatedTab={self.state.updatedTab}
             isIncreaseUpdate={self.state.isIncreaseUpdate}
             isProcessing={self.state.itemIsProcessing}
           />
-        ) : (
-          ""
-        )}
         <main>
-          {Object.keys(self.state.categorizedItems).map(category => (
-            <CategoryList
-              key={category}
-              items={self.state.categorizedItems[category]}
-              category={category}
+          {self.appConfig.header.menuOptions.map((category, index) => (
+            <Route path={ index === 0 ? `${process.env.PUBLIC_URL}/(|${category.id})` :`${process.env.PUBLIC_URL}/${category.id}`} key={category.id} render={()=>(
+              <CategoryList
+              key={category.id}
+              pageTitle={category.value}
+              onDisplay={self.onCategoryListDisplay}
+              items={category.id !== "search" ? self.state.categorizedItems[category.id] : self.state.queriedItems}
+              category={category.id}
               categoryValues={self.categoryValues}
               onItemAction={self.onItemAction}
-              isVisible={category === self.state.selectedTab}
               onShowMoreInfo={self.onShowMoreInfo}
-              isProcessing={self.state.itemIsProcessing}
+              isSearch={category.id === "search"}
+              onSearch={self.onSearch}
+              isProcessing={
+                self.state.searchIsProcessing || self.state.itemIsProcessing
+              }
             />
+              )} />
           ))}
-          <CategoryList
-            key="search"
-            isSearch={true}
-            items={self.state.queriedItems}
-            category="search"
-            categoryValues={self.categoryValues}
-            onItemAction={self.onItemAction}
-            isVisible={"search" === self.state.selectedTab}
-            onShowMoreInfo={self.onShowMoreInfo}
-            onSearch={self.onSearch}
-            isProcessing={
-              self.state.searchIsProcessing || self.state.itemIsProcessing
-            }
-          />
         </main>
         <Footer config={self.appConfig.footer} />
         {self.state.itemOnModalID &&

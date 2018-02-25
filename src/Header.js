@@ -1,29 +1,16 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
+
 
 class Header extends Component {
   state = {
-    selectedTab: this.props.config.menuOptions[0].id,
     isVisible: false
   };
-
-  selectedTab(selectedTab, event) {
-    event.preventDefault();
-    if (selectedTab !== this.state.selectedTab) {
-      this.setState({ selectedTab });
-      // notify parent of tab change
-      this.props.onTabChange(selectedTab);
-    }
-  }
 
   // help us trigger animation when show
   componentDidMount() {
     this.setState({ isVisible: true });
   }
-
-  // TODO: might not need to use componentWillUpdate
-  // componentWillUpdate() {
-  //   console.log(this.props.updatedTab);
-  // }
 
   render() {
     const self = this;
@@ -62,10 +49,10 @@ class Header extends Component {
                     <li
                       key={option.id}
                       className={
-                        self.state.selectedTab === option.id ? "is-active" : ""
+                        self.props.selectedTab === option.id ? "is-active" : ""
                       }
                     >
-                      <a onClick={event => self.selectedTab(option.id, event)}>
+                      <Link to={`${process.env.PUBLIC_URL}/${option.id}`}>
                         {option.id.includes("search") && (
                           <span className="icon is-small">
                             <i className="fas fa-search-plus" />
@@ -79,7 +66,7 @@ class Header extends Component {
                             {menuCounts[option.id]}
                           </span>
                         )}
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}

@@ -9,7 +9,7 @@ $container-padding: 0 1.5rem 5rem 1.5rem
 $my-card-container-height: 500px
 $my-card-container-border-radius: 0 0 0.7rem 0.7rem
 $my-card-thumbnail-width: 98px
-$my-card-thumbnail-height: 147px
+$my-card-thumbnail-height: 155px
 $my-card-thumbnail-background: #ccc
 $my-card-thumbnail-background: #ccc
 $my-card-width: 265px
@@ -123,12 +123,14 @@ footer
   color: #363636
   font-weight: 700
   font-size: 0.8rem
-  width: 89%;
+  width: 86%;
+  max-height: 75px
+  overflow: hidden
 
 .my-card-rating
   position: absolute
   bottom: 0.4rem
-  left: 0.9rem
+  left: 1rem
 
 .my-card-more
   position: absolute
@@ -290,7 +292,7 @@ header.is-visible
 
 section.is-visible
   display: block
-  animation: content-show 0.3s 0.1s ease-out forwards
+  animation: content-show 0.2s 0.1s ease-out forwards
 
 .my-card.is-visible
   animation: card-show 0.2s 0.2s linear forwards

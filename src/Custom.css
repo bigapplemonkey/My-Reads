@@ -6551,7 +6551,7 @@ footer {
 
 .my-card-thumbnail {
   width: 98px;
-  height: 147px;
+  height: 155px;
   background-color: #ccc;
   background-size: cover;
   background-repeat: no-repeat;
@@ -6582,12 +6582,14 @@ footer {
   color: #363636;
   font-weight: 700;
   font-size: 0.8rem;
-  width: 89%; }
+  width: 86%;
+  max-height: 75px;
+  overflow: hidden; }
 
 .my-card-rating {
   position: absolute;
   bottom: 0.4rem;
-  left: 0.9rem; }
+  left: 1rem; }
 
 .my-card-more {
   position: absolute;
@@ -6747,7 +6749,7 @@ header.is-visible {
 
 section.is-visible {
   display: block;
-  animation: content-show 0.3s 0.1s ease-out forwards; }
+  animation: content-show 0.2s 0.1s ease-out forwards; }
 
 .my-card.is-visible {
   animation: card-show 0.2s 0.2s linear forwards; }

@@ -15,6 +15,16 @@ class Card extends Component {
     const self = this;
     const { item } = this.props;
 
+    let categoryValues = this.props.categoryValues.map(category => {
+      return {
+        value: category.value,
+        id: category.id,
+        isDisabled: category.id === item.shelf ? true : false
+      };
+    });
+
+    categoryValues.push({ value: "None", id: "none", isDisabled: item.shelf === "none"});
+
     // Dynamic classes:
     // show animation
     const showClass =
@@ -54,7 +64,7 @@ class Card extends Component {
           <div className="my-card-info">
             <div className="my-card-dropdown">
               <DropDown
-                options={self.props.categoryValues}
+                options={categoryValues}
                 onSelect={category => self.props.onItemAction(category)}
                 isRight={true}
                 onlyArrow={true}

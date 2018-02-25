@@ -2,16 +2,16 @@ import React, { Component } from "react";
 
 class Header extends Component {
   state = {
-    selectTab: this.props.config.menuOptions[0].id,
+    selectedTab: this.props.config.menuOptions[0].id,
     isVisible: false
   };
 
-  selectTab(selectTab, event) {
+  selectedTab(selectedTab, event) {
     event.preventDefault();
-    if (selectTab !== this.state.selectTab) {
-      this.setState({ selectTab });
+    if (selectedTab !== this.state.selectedTab) {
+      this.setState({ selectedTab });
       // notify parent of tab change
-      this.props.onTabChange(selectTab);
+      this.props.onTabChange(selectedTab);
     }
   }
 
@@ -22,7 +22,7 @@ class Header extends Component {
 
   // TODO: might not need to use componentWillUpdate
   // componentWillUpdate() {
-  //   console.log(this.props.updatedCategory);
+  //   console.log(this.props.updatedTab);
   // }
 
   render() {
@@ -36,6 +36,10 @@ class Header extends Component {
     // header footer show animation
     const showFooterClass =
       self.state.isVisible && menuCounts ? " is-visible" : "";
+
+    // header footer show animation
+    const highlightClass =
+      self.props.isIncreaseUpdate ? " pop-up" : " pop-in";
 
     return (
       <header className={`hero is-warning${showClass}`}>
@@ -58,10 +62,10 @@ class Header extends Component {
                     <li
                       key={option.id}
                       className={
-                        self.state.selectTab === option.id ? "is-active" : ""
+                        self.state.selectedTab === option.id ? "is-active" : ""
                       }
                     >
-                      <a onClick={event => self.selectTab(option.id, event)}>
+                      <a onClick={event => self.selectedTab(option.id, event)}>
                         {option.id.includes("search") && (
                           <span className="icon is-small">
                             <i className="fas fa-search-plus" />
@@ -69,7 +73,9 @@ class Header extends Component {
                         )}
                         <h2>{option.value}</h2>
                         {!option.id.includes("search") && (
-                          <span className={`item-count tag is-white is-rounded${!self.props.isProcessing && self.props.updatedCategory === option.id ? " pop-up" : ""}`}>
+                          <span
+                            className={`item-count tag is-white is-rounded${!self.props.isProcessing && self.props.updatedTab === option.id ? highlightClass : '' }`}
+                          >
                             {menuCounts[option.id]}
                           </span>
                         )}

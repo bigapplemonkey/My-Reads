@@ -24,7 +24,10 @@ class CategoryList extends Component {
   }
 
   onSearch(query) {
-    console.log(query);
+    if(query === '') {
+      this.setState({category: "All"});
+    }
+    this.props.onSearch(query);
   }
 
   componentDidMount() {
@@ -60,16 +63,6 @@ class CategoryList extends Component {
       });
     }
 
-    let categoryValues = self.props.categoryValues.map(category => {
-      return {
-        value: category.value,
-        id: category.id,
-        isDisabled: category.id === self.props.category ? true : false
-      };
-    });
-
-    categoryValues.push({ value: "None", id: "none", isDisabled: self.props.category === "search"});
-
     // Dynamic classes:
     // show animation
     const showClass = self.props.isVisible ? " is-visible" : "";
@@ -93,11 +86,12 @@ class CategoryList extends Component {
         className={`container my-cards-container${showClass}${cardsShowClass}`}
       >
         <div className="dropdown-container">
-          {self.props.isSearch && <Search onUpdate={this.props.onSearch.bind(self)} />}
+          {self.props.isSearch && <Search onUpdate={self.onSearch.bind(self)} />}
           <DropDown
             options={categories}
             onSelect={self.onSelect.bind(self)}
             isOrdered={true}
+            optionSelected={self.state.category}
           />
         </div>
         <div className="my-loader" />
@@ -111,10 +105,10 @@ class CategoryList extends Component {
               key={item.id}
               item={item}
               onItemAction={category =>
-                self.props.onItemAction(item, category.id, self.props.category)
+                self.props.onItemAction(item, category.id)
               }
               onShowMoreInfo={self.onShowMoreInfo.bind(self)}
-              categoryValues={categoryValues}
+              categoryValues={self.props.categoryValues}
               isProcessing={self.props.isProcessing || self.state.isProcessing}
             />
           ))}

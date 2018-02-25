@@ -105,7 +105,7 @@ class DropDown extends Component {
               ""
             ) : (
               <span>
-                {self.correctCapitalization(self.state.optionSelected.value)}
+                {self.correctCapitalization(self.props.optionSelected ? self.props.optionSelected : self.state.optionSelected.value)}
               </span>
             )}
             <span className="icon is-small">

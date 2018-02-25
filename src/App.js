@@ -19,8 +19,11 @@ class App extends Component {
       selectedTab: this.appConfig.header.menuOptions[0].id,
       itemOnModalID: "",
       isModalVisible: false,
-      updatedCategory: "",
-      isProcessing: false
+      updatedTab: "",
+      isIncreaseUpdate: false,
+      query: "",
+      itemIsProcessing: false,
+      searchIsProcessing: false
     };
 
     this.onTabChange = this.onTabChange.bind(this);
@@ -51,6 +54,24 @@ class App extends Component {
   categoryValues = this.appConfig.header.menuOptions.filter(
     category => category.id !== "search"
   );
+
+  processedResponse(response) {
+    let allItems = [];
+
+    this.categoryValues.forEach(
+      category =>
+        (allItems = allItems.concat(this.state.categorizedItems[category.id]))
+    );
+    return response.map(responseItem => {
+      const shelfItem = allItems.filter(
+        shelfItem => shelfItem.id === responseItem.id
+      );
+      shelfItem.length > 0
+        ? (responseItem.shelf = shelfItem[0].shelf)
+        : (responseItem.shelf = "none");
+      return responseItem;
+    });
+  }
 
   componentDidMount() {
     // getting app header from app config
@@ -107,19 +128,23 @@ class App extends Component {
   }
 
   onSearch(query) {
-    if (!query) {
-      this.setState({ queriedItems: [] });
-      return;
-    }
-
-    this.setState({ isProcessing: true });
-    BooksAPI.search(query).then(response => {
-      if (response) {
-        if (!response.error) {
-          this.setState({ queriedItems: response }, () =>
-            this.setState({ isProcessing: false })
-          );
-        } else this.setState({ isProcessing: false });
+    this.setState({ searchIsProcessing: true }, () => {
+      if (!query || query.length === 0) {
+        this.setState({ queriedItems: [], searchIsProcessing: false });
+      } else {
+        BooksAPI.search(query).then(response => {
+          if (response) {
+            if (!response.error) {
+              this.setState(
+                { queriedItems: this.processedResponse(response) },
+                () => this.setState({ searchIsProcessing: false })
+              );
+            } else {
+              console.log("error", response.error);
+              this.setState({ queriedItems: [], searchIsProcessing: false });
+            }
+          }
+        });
       }
     });
   }
@@ -134,36 +159,29 @@ class App extends Component {
         );
   }
 
-  onItemAction(item, moveTo, moveFrom) {
-    this.setState({ isProcessing: true });
+  onItemAction(item, moveTo) {
+    const moveFrom = item.shelf;
+
+    this.setState({ itemIsProcessing: true });
     BooksAPI.update(item, moveTo).then(response => {
-      this.setState(
-        prevState => {
-          let newCategorizedItems = prevState.categorizedItems;
-          let newCategoryCount = prevState.categoryCount;
+      this.getAllBooks((categorizedItems, categoryCount) => {
+        const isIncreaseUpdate = moveTo !== "none";
+        const updatedTab = moveTo !== "none" ? moveTo : moveFrom;
 
-          // add item locally
-          if (moveTo !== "none") {
-            newCategorizedItems[moveTo].push(item);
-            newCategoryCount[moveTo] = newCategorizedItems[moveTo].length;
-          }
-
-          // remove item locally
-          if (!["none", "search"].includes(moveFrom)) {
-            newCategorizedItems[moveFrom] = newCategorizedItems[
-              moveFrom
-            ].filter(prevItem => prevItem.id !== item.id);
-            newCategoryCount[moveFrom] = newCategorizedItems[moveFrom].length;
-          }
-
-          return {
-            categorizedItems: newCategorizedItems,
-            categoryCount: newCategoryCount,
-            updatedCategory: moveTo
-          };
-        },
-        () => this.setState({ isProcessing: false })
-      );
+        this.setState(
+          {
+            categorizedItems: categorizedItems,
+            categoryCount: categoryCount,
+            updatedTab: updatedTab,
+            queriedItems: this.state.queriedItems.map(queryItem => {
+              if (queryItem.id === item.id) queryItem.shelf = moveTo;
+              return queryItem;
+            }),
+            isIncreaseUpdate: isIncreaseUpdate
+          },
+          () => this.setState({ itemIsProcessing: false })
+        );
+      });
     });
   }
 
@@ -178,11 +196,12 @@ class App extends Component {
       <div role="application" className={`my-application${showClass}`}>
         {self.state.categorizedItems && self.state.categoryCount ? (
           <Header
-            config={this.appConfig.header}
+            config={self.appConfig.header}
             menuCounts={self.state.categoryCount}
             onTabChange={self.onTabChange}
-            updatedCategory={self.state.updatedCategory}
-            isProcessing={self.state.isProcessing}
+            updatedTab={self.state.updatedTab}
+            isIncreaseUpdate={self.state.isIncreaseUpdate}
+            isProcessing={self.state.itemIsProcessing}
           />
         ) : (
           ""
@@ -193,11 +212,11 @@ class App extends Component {
               key={category}
               items={self.state.categorizedItems[category]}
               category={category}
-              categoryValues={this.categoryValues}
+              categoryValues={self.categoryValues}
               onItemAction={self.onItemAction}
               isVisible={category === self.state.selectedTab}
               onShowMoreInfo={self.onShowMoreInfo}
-              isProcessing={self.state.isProcessing}
+              isProcessing={self.state.itemIsProcessing}
             />
           ))}
           <CategoryList
@@ -205,15 +224,17 @@ class App extends Component {
             isSearch={true}
             items={self.state.queriedItems}
             category="search"
-            categoryValues={this.categoryValues}
+            categoryValues={self.categoryValues}
             onItemAction={self.onItemAction}
             isVisible={"search" === self.state.selectedTab}
             onShowMoreInfo={self.onShowMoreInfo}
             onSearch={self.onSearch}
-            isProcessing={self.state.isProcessing}
+            isProcessing={
+              self.state.searchIsProcessing || self.state.itemIsProcessing
+            }
           />
         </main>
-        <Footer config={this.appConfig.footer} />
+        <Footer config={self.appConfig.footer} />
         {self.state.itemOnModalID &&
           self.state.isModalVisible && (
             <Modal

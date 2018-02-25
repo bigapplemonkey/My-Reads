@@ -39,7 +39,7 @@ class Card extends Component {
       fitType = "cover";
       verticalAlign = "bottom";
     } else {
-      imagePath = "/image_holder_opt.png";
+      imagePath = "./image_holder_opt.png";
       fitType = "auto";
       verticalAlign = "center";
     }

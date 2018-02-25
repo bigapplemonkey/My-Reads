@@ -43,7 +43,7 @@ class Modal extends Component {
     // Dynamic classes:
     // show modal - trigger animation
     const showModalClass =
-      self.props.isVisible && self.state.isVisible ? " is-active" : "";
+      true ? " is-active" : "";
 
     //trigger modal content animation
     const showContentClass = self.state.isImageLoaded ? " with-image" : "";
@@ -71,7 +71,7 @@ class Modal extends Component {
                     src={
                       item.imageLinks
                         ? item.imageLinks.thumbnail
-                        : "/image_holder_opt.png"
+                        : "./image_holder_opt.png"
                     }
                     alt={item.title}
                     onLoad={self.imageLoaded.bind(self)}

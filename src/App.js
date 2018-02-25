@@ -175,6 +175,11 @@ class App extends Component {
     });
   }
 
+  // get notification from CategoryList component to update selected tab in header
+  onCategoryListDisplay(category) {
+    this.setState({ selectedTab: category });
+  }
+
   // trigger modal for item
   onShowMoreInfo(item) {
     this.setState({ isModalVisible: true, itemOnModal: item });
@@ -183,11 +188,6 @@ class App extends Component {
   // handle notification from modal when closed
   onHideMoreInfo(item) {
     this.setState({ isModalVisible: false });
-  }
-
-  // get notification from CategoryList component to update selected tab in header
-  onCategoryListDisplay(category) {
-    this.setState({ selectedTab: category });
   }
 
   render() {

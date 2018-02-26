@@ -8,7 +8,7 @@ class Header extends Component {
     isVisible: false
   };
 
-  // help us trigger animation when show
+  // trigger animation on show
   componentDidMount() {
     this.setState({ isVisible: true });
   }

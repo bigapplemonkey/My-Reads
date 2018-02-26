@@ -1,4 +1,6 @@
-import React from "react";
+// React packages
+import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Start Rating:
@@ -37,5 +39,10 @@ const Rating = props => (
     </div>
   </div>
 );
+
+Rating.propTypes = {
+  averageRating: PropTypes.number,
+  ratingsCount: PropTypes.number
+};
 
 export default Rating;

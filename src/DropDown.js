@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+// React packages
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * click Outside Component:
@@ -17,11 +19,17 @@ class DropDown extends Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
+  // remove event listener before losing ref in the component
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+
+  // handle dropdown clicks
   handleClick() {
     if (!this.state.isExpanded) {
-      document.addEventListener("click", this.handleOutsideClick, false);
+      document.addEventListener('click', this.handleOutsideClick, false);
     } else {
-      document.removeEventListener("click", this.handleOutsideClick, false);
+      document.removeEventListener('click', this.handleOutsideClick, false);
     }
 
     this.setState(prevState => ({
@@ -29,6 +37,7 @@ class DropDown extends Component {
     }));
   }
 
+  // handle clicks outside dropdown
   handleOutsideClick(event) {
     // ignore clicks on the component itself
     if (this.node.contains(event.target)) {
@@ -38,24 +47,20 @@ class DropDown extends Component {
     this.handleClick();
   }
 
-  componentWillUnmount() {
-    // remove event listener before losing ref in the component
-    document.removeEventListener("click", this.handleOutsideClick, false);
-  }
-
-  // notify parent component
+  // notify parent component on select
   onSelect(optionSelected, event) {
     event.preventDefault();
     this.setState({ optionSelected });
     this.props.onSelect(optionSelected);
   }
 
+  // expands dropdpwn on trigger click
   expand(event) {
     event.preventDefault();
-
     if (!this.state.isExpanded) this.setState({ isExpanded: true });
   }
 
+  // helper to fix options' capitalization
   correctCapitalization(rawString) {
     return rawString.replace(
       /\w\S*/g,
@@ -74,7 +79,7 @@ class DropDown extends Component {
     );
 
     // if items are requested to be sorted
-    if (self.props.hasOwnProperty("isOrdered") && self.props.isOrdered)
+    if (self.props.hasOwnProperty('isOrdered') && self.props.isOrdered)
       options = options.sort((option1, option2) => {
         let option1Value = option1.value.toUpperCase();
         let option2Value = option2.value.toUpperCase();
@@ -83,18 +88,20 @@ class DropDown extends Component {
           : option1Value > option2Value ? 1 : 0;
       });
 
+    // option displayed in the trigger
+    const optionSelected = self.props.optionSelected
+      ? self.props.optionSelected
+      : self.state.optionSelected.value;
+
     // Dynamic classes:
     // menu alignment
-    const alignmentClass = self.props.isRight ? " is-right" : "";
+    const alignmentClass = self.props.isRight ? ' is-right' : '';
     // expanding class - trigger animation
-    const expandedClass = self.state.isExpanded ? " is-active" : "";
+    const expandedClass = self.state.isExpanded ? ' is-active' : '';
 
     return (
       <div className={`my-dropdown dropdown ${alignmentClass}${expandedClass}`}>
-        <div
-          className="dropdown-trigger"
-          ref={node => (self.node = node)}
-        >
+        <div className="dropdown-trigger" ref={node => (self.node = node)}>
           <button
             className="button"
             aria-haspopup="true"
@@ -104,9 +111,7 @@ class DropDown extends Component {
             {self.props.onlyArrow ? (
               ""
             ) : (
-              <span>
-                {self.correctCapitalization(self.props.optionSelected ? self.props.optionSelected : self.state.optionSelected.value)}
-              </span>
+              <span>{self.correctCapitalization(optionSelected)}</span>
             )}
             <span className="icon is-small">
               <i className="fas fa-angle-down" aria-hidden="true" />
@@ -140,5 +145,14 @@ class DropDown extends Component {
     );
   }
 }
+
+DropDown.propTypes = {
+  options: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  isRight: PropTypes.bool,
+  onlyArrow: PropTypes.bool,
+  isOrdered: PropTypes.bool,
+  optionSelected: PropTypes.string
+};
 
 export default DropDown;

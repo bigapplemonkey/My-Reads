@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { Link } from 'react-router-dom'
-
+// React packages
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Header extends Component {
   state = {
@@ -18,15 +19,14 @@ class Header extends Component {
 
     // Dynamic classes:
     // header show animation
-    const showClass = self.state.isVisible ? " is-visible" : "";
+    const showClass = self.state.isVisible ? ' is-visible' : '';
 
     // header footer show animation
     const showFooterClass =
-      self.state.isVisible && menuCounts ? " is-visible" : "";
+      self.state.isVisible && menuCounts ? ' is-visible' : '';
 
     // header footer show animation
-    const highlightClass =
-      self.props.isIncreaseUpdate ? " pop-up" : " pop-in";
+    const highlightClass = self.props.isIncreaseUpdate ? ' pop-up' : ' pop-in';
 
     return (
       <header className={`hero is-warning${showClass}`}>
@@ -61,7 +61,12 @@ class Header extends Component {
                         <h2>{option.value}</h2>
                         {!option.id.includes("search") && (
                           <span
-                            className={`item-count tag is-white is-rounded${!self.props.isProcessing && self.props.updatedTab === option.id ? highlightClass : '' }`}
+                            className={`item-count tag is-white is-rounded${
+                              !self.props.isProcessing &&
+                              self.props.updatedTab === option.id
+                                ? highlightClass
+                                : ""
+                            }`}
                           >
                             {menuCounts[option.id]}
                           </span>
@@ -78,5 +83,14 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  config: PropTypes.object.isRequired,
+  menuCounts: PropTypes.object.isRequired,
+  selectedTab: PropTypes.string.isRequired,
+  updatedTab: PropTypes.string.isRequired,
+  isIncreaseUpdate: PropTypes.bool.isRequired,
+  isProcessing: PropTypes.bool.isRequired
+};
 
 export default Header;

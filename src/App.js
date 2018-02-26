@@ -21,6 +21,7 @@ class App extends Component {
       categorizedItems: {},
       categoryCount: {},
       queriedItems: [],
+      query: '',
       selectedTab: '',
       itemOnModal: {},
       isModalVisible: false,
@@ -108,7 +109,8 @@ class App extends Component {
 
   // searh
   onSearch(query) {
-    this.setState({ searchIsProcessing: true }, () => {
+    this.setState({ searchIsProcessing: true, query: query }, () => {
+      query = this.state.query;
       if (!query || query.length === 0) {
         this.setState({ queriedItems: [], searchIsProcessing: false });
       } else {
@@ -193,6 +195,10 @@ class App extends Component {
   render() {
     const self = this;
 
+    // avoid displaying previous searches
+    const queriedItems =
+      this.state.query.length > 0 ? this.state.queriedItems : [];
+
     // Dynamic classes:
     // app show class
     const showClass = self.state.isAppReady ? ' is-visible' : '';
@@ -224,7 +230,7 @@ class App extends Component {
                   items={
                     category.id !== "search"
                       ? self.state.categorizedItems[category.id]
-                      : self.state.queriedItems
+                      : queriedItems
                   }
                   category={category.id}
                   categoryValues={self.categoryValues}

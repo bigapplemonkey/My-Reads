@@ -1,5 +1,8 @@
-import React, { Component } from "react";
-import Rating from "./Rating";
+// React packages
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+// Components
+import Rating from './Rating';
 
 class Modal extends Component {
   state = {
@@ -7,20 +10,22 @@ class Modal extends Component {
     isImageLoaded: false
   };
 
+  // trigger animation when show
   componentDidMount() {
     this.setState({ isVisible: true });
   }
 
+  // check image is loaded before showing modal
   imageLoaded() {
     this.setState({ isImageLoaded: true });
   }
 
   // removing background scroll when modal is open
   onDisplay(isVisible) {
-    let $html = document.getElementsByTagName("html");
+    let $html = document.getElementsByTagName('html');
     isVisible
-      ? $html[0].classList.add("is-clipped")
-      : $html[0].classList.remove("is-clipped");
+      ? $html[0].classList.add('is-clipped')
+      : $html[0].classList.remove('is-clipped');
   }
 
   // closing modal when there's a click ouside of modal
@@ -43,12 +48,28 @@ class Modal extends Component {
     // Dynamic classes:
     // show modal - trigger animation
     const showModalClass =
-      true ? " is-active" : "";
+      self.props.isVisible && self.state.isVisible ? ' is-active' : '';
 
     //trigger modal content animation
-    const showContentClass = self.state.isImageLoaded ? " with-image" : "";
+    const showContentClass = self.state.isImageLoaded ? ' with-image' : '';
 
-    let itemDescription = "";
+    // merge title and subtitle
+    const itemTitle = item.subtitle
+      ? `${item.title}: ${item.subtitle}`
+      : item.title;
+    // check if image path
+    const imagePath = item.imageLinks
+      ? item.imageLinks.thumbnail
+      : './image_holder_opt.png';
+    // merge authors
+    const itemAuthors = item.authors ? item.authors.join(', ') : 'Anonymous';
+    // get published year
+    const itemYear = item.publishedDate
+      ? ` - ${item.publishedDate.split('-')[0]}`
+      : '';
+
+    // cut long text off
+    let itemDescription = '';
     if (item.description) {
       itemDescription =
         item.description.length > 500
@@ -68,11 +89,7 @@ class Modal extends Component {
               <div className="media-left">
                 <figure className="image is-2by3">
                   <img
-                    src={
-                      item.imageLinks
-                        ? item.imageLinks.thumbnail
-                        : "./image_holder_opt.png"
-                    }
+                    src={imagePath}
                     alt={item.title}
                     onLoad={self.imageLoaded.bind(self)}
                   />
@@ -87,18 +104,10 @@ class Modal extends Component {
               <div className="media-content">
                 <div className="content">
                   <p>
-                    <strong>
-                      {item.subtitle
-                        ? `${item.title}: ${item.subtitle}`
-                        : item.title}
-                    </strong>
+                    <strong>{itemTitle}</strong>
                     <br />
-                    <small>
-                      {item.authors ? item.authors.join(", ") : "Anonymous"}
-                    </small>
-                    {item.publishedDate
-                      ? ` - ${item.publishedDate.split("-")[0]}`
-                      : ""}
+                    <small>{itemAuthors}</small>
+                    {itemYear}
                     <br />
                     <br />
                     {itemDescription}
@@ -135,5 +144,11 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  item: PropTypes.object.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onHidden: PropTypes.func.isRequired
+};
 
 export default Modal;

@@ -1,12 +1,16 @@
-import React, { Component } from "react";
-import Rating from "./Rating";
-import DropDown from "./DropDown";
+// React packages
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+// Components
+import Rating from './Rating';
+import DropDown from './DropDown';
 
 class Card extends Component {
   state = {
     isVisible: false
   };
 
+  // trigger animation on show
   componentDidMount() {
     this.setState({ isVisible: true });
   }
@@ -23,12 +27,16 @@ class Card extends Component {
       };
     });
 
-    categoryValues.push({ value: "None", id: "none", isDisabled: item.shelf === "none"});
+    categoryValues.push({
+      value: 'None',
+      id: 'none',
+      isDisabled: item.shelf === 'none'
+    });
 
     // Dynamic classes:
     // show animation
     const showClass =
-      self.state.isVisible && !self.props.isProcessing ? " is-visible" : "";
+      self.state.isVisible && !self.props.isProcessing ? ' is-visible' : '';
 
     let imagePath;
     let fitType;
@@ -36,12 +44,12 @@ class Card extends Component {
 
     if (item.imageLinks && item.imageLinks.smallThumbnail) {
       imagePath = item.imageLinks.smallThumbnail;
-      fitType = "cover";
-      verticalAlign = "bottom";
+      fitType = 'cover';
+      verticalAlign = 'bottom';
     } else {
-      imagePath = "./image_holder_opt.png";
-      fitType = "auto";
-      verticalAlign = "center";
+      imagePath = './image_holder_opt.png';
+      fitType = 'auto';
+      verticalAlign = 'center';
     }
 
     const imageStyling = {
@@ -55,7 +63,7 @@ class Card extends Component {
           <div className="my-card-thumbnail" style={imageStyling} />
           <div
             className="my-card-more has-text-centered"
-            onClick={() => self.props.onShowMoreInfo(item.id)}
+            onClick={() => self.props.onShowMoreInfo(item)}
           >
             <span className="icon">
               <i className="fas fa-ellipsis-h" />
@@ -78,7 +86,7 @@ class Card extends Component {
             </div>
             <div className="my-card-rating">
               <Rating
-                averageRating={item.averageRating}
+                averageRating={item.averageRating ? item.averageRating : 0}
                 ratingsCount={item.ratingsCount ? item.ratingsCount : 0}
               />
             </div>
@@ -88,5 +96,13 @@ class Card extends Component {
     );
   }
 }
+
+Card.propTypes = {
+  item: PropTypes.object.isRequired,
+  onItemAction: PropTypes.func.isRequired,
+  onShowMoreInfo: PropTypes.func.isRequired,
+  categoryValues: PropTypes.array.isRequired,
+  isProcessing: PropTypes.bool.isRequired
+};
 
 export default Card;

@@ -2,9 +2,6 @@
 
 In this project, we use React to create a bookshelf app that allows you to select and categorize books you have read, are currently reading, or want to read.
 
-In this project, we incrementally convert a static webpage to a mobile-ready web application. We take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. We also add a service worker to begin the process of creating a seamless offline experience for your users.
-
-
 ## Functionality
 
 In this application, the main page displays a list of "shelves" (i.e. categories), each of which contains a number of books. The three shelves are:

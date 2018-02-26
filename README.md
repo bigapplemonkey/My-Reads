@@ -25,6 +25,10 @@ To run this project locally:
 1. Install all project dependencies with `npm install`
 2. Start the development server with `npm start`
 
+## TODO
+
+- Improve mobile experience.
+- Accesibility.
 
 ## Create React App
 

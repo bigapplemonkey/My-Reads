@@ -1,4 +1,6 @@
-import React from "react";
+// React packages
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Footer = props => {
   const config = props.config;
@@ -15,6 +17,10 @@ const Footer = props => {
       </div>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  config: PropTypes.object.isRequired
 };
 
 export default Footer;

@@ -1,9 +1,12 @@
-import React, { Component } from "react";
+// React packages
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Search extends Component {
+  // clear value when clear icon is clicked
   clearValue() {
-    this.input.value = "";
-    this.props.onUpdate("");
+    this.input.value = '';
+    this.props.onUpdate('');
   }
 
   render() {
@@ -32,5 +35,9 @@ class Search extends Component {
     );
   }
 }
+
+Search.propTypes = {
+  onUpdate: PropTypes.func.isRequired
+};
 
 export default Search;

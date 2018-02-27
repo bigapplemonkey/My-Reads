@@ -6539,7 +6539,7 @@ footer {
   opacity: 0; }
 
 .my-cards-container {
-  min-height: 500px;
+  min-height: 550px;
   border-radius: 0 0 0.7rem 0.7rem;
   margin-bottom: 100px;
   padding: 1rem 2.5rem; }
@@ -6841,7 +6841,7 @@ section.is-visible {
     opacity: 0;
     position: fixed;
     left: calc(50vw - (50px/2));
-    top: calc(50vh - (50px/2));
+    top: calc(45vh - (50px/2));
     transform: translateZ(0.5rem);
     z-index: 999; }
   .is-processing.my-loader {

@@ -294,6 +294,9 @@ section.is-visible
   top: 120px
   left:  calc(50% - (#{$loader-radio}/2))
 
+.mobile.my-loader
+  display: none
+
 .is-processing .my-cards-grid
   opacity: 0
 
@@ -373,7 +376,7 @@ section.is-visible
     width: 100%
 
   .my-card-content
-    width: 70%
+    width: 75%
 
   .my-card-thumbnail
     width: $my-card-thumbnail-width
@@ -387,7 +390,7 @@ section.is-visible
     width: 100%
 
   .my-card-content
-    width: 90%
+    width: 100%
 
   .title
     font-size: 1.5rem
@@ -395,9 +398,21 @@ section.is-visible
   .subtitle
     font-size: 1.1rem
 
+  .my-loader
+    display: none
 
+  .mobile.my-loader
+    display: block
+    opacity: 0
+    position: fixed
+    left:  calc(50vw - (#{$loader-radio}/2))
+    top:  calc(50vh - (#{$loader-radio}/2))
+    transform: translateZ(0.5rem)
+    z-index: 999
 
-
+  .is-processing.my-loader
+    animation: spinAround 500ms infinite linear
+    opacity: 1
 
 // animations
 @keyframes opacity-show

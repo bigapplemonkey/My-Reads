@@ -203,8 +203,12 @@ class App extends Component {
     // app show class
     const showClass = self.state.isAppReady ? ' is-visible' : '';
 
+    // app show class
+    const mobileLoaderClass = self.state.itemIsProcessing || self.state.searchIsProcessing ? ' is-processing' : '';
+
     return (
       <div role="application" className={`my-application${showClass}`}>
+        <div className={`mobile my-loader${mobileLoaderClass}`}></div>
         <Header
           config={self.appConfig.header}
           menuCounts={self.state.categoryCount}

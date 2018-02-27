@@ -98,9 +98,11 @@ class DropDown extends Component {
     const alignmentClass = self.props.isRight ? ' is-right' : '';
     // expanding class - trigger animation
     const expandedClass = self.state.isExpanded ? ' is-active' : '';
+    // external classes
+    const externalClass = self.props.externalClass ? ` ${self.props.externalClass}` : '';
 
     return (
-      <div className={`my-dropdown dropdown ${alignmentClass}${expandedClass}`}>
+      <div className={`my-dropdown dropdown ${alignmentClass}${expandedClass}${externalClass}`}>
         <div className="dropdown-trigger" ref={node => (self.node = node)}>
           <button
             className="button"
@@ -152,7 +154,8 @@ DropDown.propTypes = {
   isRight: PropTypes.bool,
   onlyArrow: PropTypes.bool,
   isOrdered: PropTypes.bool,
-  optionSelected: PropTypes.string
+  optionSelected: PropTypes.string,
+  externalClass: PropTypes.string
 };
 
 export default DropDown;

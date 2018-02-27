@@ -19,6 +19,7 @@ $half-width: 50%
 $background-light-gray: #f5f5f5
 $my-dropdown-width: 100px
 $loader-radio: 50px
+$breakpoint-small-mobile: 600px
 
 // Extending
 %flex-container
@@ -65,6 +66,9 @@ footer
 .my-application
   opacity: 0
 
+ul.header-options-container
+  @extend %flex-container
+
 // card component styling
 .my-cards-container
   min-height: $my-card-container-height
@@ -73,11 +77,11 @@ footer
   padding: 1rem 2.5rem
 
 .my-cards-grid
-    padding: 0
-    margin: 0
-    //justify-content: center
-    @extend %flex-container
-    transition: opacity 0.1s ease-out
+  padding: 0
+  margin: 0 auto
+  //justify-content: center
+  @extend %flex-container
+  transition: opacity 0.1s ease-out
 
 .my-card-thumbnail
   width: $my-card-thumbnail-width
@@ -92,14 +96,16 @@ footer
   opacity: 0
   transform: scale(0.9)
   padding: 0.6rem
+  width: 25%
 
 .my-card-content
-  width: $my-card-width
+  width: 95%
   background-color: white
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
   color: #4a4a4a
   @extend %flex-container
   position: relative
+  margin: 0 auto
 
 .my-card-content:hover
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2)
@@ -305,6 +311,93 @@ section.is-visible
 .no-items.is-empty
   display: block
   animation: content-show 0.2s 0.2s ease-out forwards
+
+
+// Media quieries for smaller devices
+@media (max-width: $breakpoint-small-mobile)
+  .hero-body
+    padding: 1.6rem 1.5rem
+
+  ul.header-options-container
+    padding: 0 0.5rem
+    justify-content: center
+
+  .header-options-container li
+    padding: 3px 3px 0 3px
+
+  .tabs.is-boxed a
+    font-size: 0.8rem
+    border-radius: 4px 4px 0 0
+    border: 1px solid gray
+    border-bottom: none
+
+  .my-cards-grid
+    justify-content: center
+
+  .hidden-mobile
+    display: none
+
+  .no-items
+    font-size: 1.1rem
+
+  .modal-content
+    margin: 0px 9px
+
+@media (max-width: 1408px)
+  .my-card
+    width: 33%
+
+@media (max-width: 940px)
+  .my-card-thumbnail
+    width: 87px
+
+@media (max-width: 895px)
+  .my-card
+    width: 50%
+  .my-card-thumbnail
+    width: $my-card-thumbnail-width
+  .my-card-title
+    font-size: 0.9rem
+    max-height: 85px
+
+@media (max-width: 745px)
+  .my-card-title
+    font-size: 0.8rem
+    max-height: 75px
+
+  .my-card-thumbnail
+    width: 87px
+
+@media (max-width: 680px)
+  .my-card
+    width: 100%
+
+  .my-card-content
+    width: 70%
+
+  .my-card-thumbnail
+    width: $my-card-thumbnail-width
+
+  .my-card-title
+    font-size: 0.9rem
+    max-height: 85px
+
+@media (max-width: 490px)
+  .my-card
+    width: 100%
+
+  .my-card-content
+    width: 90%
+
+  .title
+    font-size: 1.5rem
+
+  .subtitle
+    font-size: 1.1rem
+
+
+
+
 
 // animations
 @keyframes opacity-show

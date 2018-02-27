@@ -95,6 +95,7 @@ class CategoryList extends Component {
             <Search onUpdate={self.onSearch.bind(self)} />
           )}
           <DropDown
+            externalClass="hidden-mobile"
             options={categories}
             onSelect={self.onSelect.bind(self)}
             isOrdered={true}

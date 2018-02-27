@@ -43,7 +43,7 @@ class Header extends Component {
         <div className={`hero-foot${showFooterClass}`}>
           <nav className="tabs is-boxed">
             <div className="container">
-              <ul>
+              <ul className="header-options-container">
                 {config.menuOptions.map(option => {
                   return (
                     <li

@@ -17,6 +17,7 @@ The main page also has a link to /search, a search page that allows you to find 
 ![Shelves](http://res.cloudinary.com/jasuaje/image/upload/v1519628459/Screen_Shot_2018-02-26_at_1.59.09_AM_xjt6aq.png)
 ![Book info](http://res.cloudinary.com/jasuaje/image/upload/v1519628459/Screen_Shot_2018-02-26_at_1.59.29_AM_boqs4f.png)
 ![Moving between shelves](http://res.cloudinary.com/jasuaje/image/upload/v1519628631/Screen_Shot_2018-02-26_at_2.03.28_AM_qetzcz.png)
+![Mobile display](http://res.cloudinary.com/jasuaje/image/upload/v1519746435/mobile_cz8bdm.png)
 
 ## Instructions
 

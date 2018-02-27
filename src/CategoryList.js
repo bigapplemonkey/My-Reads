@@ -89,13 +89,19 @@ class CategoryList extends Component {
           : 'No books in this shelf';
     }
 
+    // check for query
+    const query = self.props.query ? self.props.query : '';
+
     return (
       <section
         className={`container my-cards-container is-visible${cardsShowClass}`}
       >
         <div className="dropdown-container">
           {self.props.isSearch && (
-            <Search onUpdate={self.onSearch.bind(self)} />
+            <Search
+              onUpdate={self.onSearch.bind(self)}
+              query={query}
+            />
           )}
           <DropDown
             externalClass={mobileHiddenClass}
@@ -136,6 +142,7 @@ CategoryList.propTypes = {
   categoryValues: PropTypes.array.isRequired,
   onItemAction: PropTypes.func.isRequired,
   onShowMoreInfo: PropTypes.func.isRequired,
+  query: PropTypes.string,
   isSearch: PropTypes.bool,
   onSearch: PropTypes.func,
   isProcessing: PropTypes.bool.isRequired

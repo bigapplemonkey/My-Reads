@@ -12,6 +12,9 @@ class Search extends Component {
   render() {
     const self = this;
 
+    // check for query
+    const query = self.props.query ? self.props.query : '';
+
     return (
       <div className="my-search field">
         <p className="control is-expanded has-icons-left has-icons-right">
@@ -20,6 +23,7 @@ class Search extends Component {
             type="text"
             placeholder="Search"
             ref={node => (self.input = node)}
+            value={query}
             onChange={event => self.props.onUpdate(event.target.value.trim())}
           />
           <span className="icon is-small is-left">
@@ -37,6 +41,7 @@ class Search extends Component {
 }
 
 Search.propTypes = {
+  query: PropTypes.string,
   onUpdate: PropTypes.func.isRequired
 };
 

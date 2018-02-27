@@ -21,7 +21,7 @@ class App extends Component {
       categorizedItems: {},
       categoryCount: {},
       queriedItems: [],
-      query: '',
+      // query: '',
       selectedTab: '',
       itemOnModal: {},
       isModalVisible: false,
@@ -197,7 +197,7 @@ class App extends Component {
 
     // avoid displaying previous searches
     const queriedItems =
-      this.state.query.length > 0 ? this.state.queriedItems : [];
+      this.state.query && this.state.query.length > 0 ? this.state.queriedItems : [];
 
     // Dynamic classes:
     // app show class
@@ -241,6 +241,7 @@ class App extends Component {
                   onItemAction={self.onItemAction}
                   onShowMoreInfo={self.onShowMoreInfo}
                   isSearch={category.id === "search"}
+                  query={category.id === "search" ? self.state.query : ""}
                   onSearch={self.onSearch}
                   isProcessing={
                     self.state.searchIsProcessing || self.state.itemIsProcessing

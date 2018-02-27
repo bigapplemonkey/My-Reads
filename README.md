@@ -27,7 +27,7 @@ To run this project locally:
 
 ## TODO
 
-- Improve Accesibility.
+- Improve accesibility.
 
 ## Create React App
 

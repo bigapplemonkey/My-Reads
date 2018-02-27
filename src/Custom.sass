@@ -7,7 +7,7 @@
 $footer-color: $yellow-invert
 $footer-color-invert: findColorInvert($footer-color)
 $container-padding: 0 1.5rem 5rem 1.5rem
-$my-card-container-height: 550px
+$my-card-container-height: 500px
 $my-card-container-border-radius: 0 0 0.7rem 0.7rem
 $my-card-thumbnail-width: 98px
 $my-card-thumbnail-height: 155px
@@ -97,6 +97,7 @@ ul.header-options-container
   transform: scale(0.9)
   padding: 0.6rem
   width: 25%
+  min-width: 270px
 
 .my-card-content
   width: 95%
@@ -256,6 +257,10 @@ section.is-visible
 .dropdown-icon
   margin-left: 1.1rem
 
+.my-card-dropdown .dropdown-item
+  font-size: 0.875rem
+  line-height: 1.2
+
 .dropdown.is-active .dropdown-menu
   opacity: 0
   transform: translateY(-1rem)
@@ -354,11 +359,19 @@ section.is-visible
   .my-card-thumbnail
     width: 87px
 
+  .my-card-info
+    width: calc(100% - 87px)
+
 @media (max-width: 895px)
   .my-card
     width: 50%
+
   .my-card-thumbnail
     width: $my-card-thumbnail-width
+
+  .my-card-info
+    width: calc(100% - 98px)
+
   .my-card-title
     font-size: 0.9rem
     max-height: 85px
@@ -371,15 +384,21 @@ section.is-visible
   .my-card-thumbnail
     width: 87px
 
+  .my-card-info
+    width: calc(100% - 87px)
+
 @media (max-width: 680px)
   .my-card
     width: 100%
 
   .my-card-content
-    width: 75%
+    width: 80%
 
   .my-card-thumbnail
     width: $my-card-thumbnail-width
+
+  .my-card-info
+    width: calc(100% - 98px)
 
   .my-card-title
     font-size: 0.9rem
@@ -407,7 +426,6 @@ section.is-visible
     position: fixed
     left:  calc(50vw - (#{$loader-radio}/2))
     top:  calc(45vh - (#{$loader-radio}/2))
-    transform: translateZ(0.5rem)
     z-index: 999
 
   .is-processing.my-loader

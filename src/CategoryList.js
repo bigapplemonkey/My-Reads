@@ -75,6 +75,9 @@ class CategoryList extends Component {
     // show cards
     const cardsShowClass = self.props.isProcessing ? ' is-processing' : '';
 
+    // hide category dropdown mobile for search
+    const mobileHiddenClass = self.props.category === 'search' ? 'hidden-mobile' : '';
+
     //no items class / message
     let emptyShowClass = '';
     let noItemsMessage = '';
@@ -95,7 +98,7 @@ class CategoryList extends Component {
             <Search onUpdate={self.onSearch.bind(self)} />
           )}
           <DropDown
-            externalClass="hidden-mobile"
+            externalClass={mobileHiddenClass}
             options={categories}
             onSelect={self.onSelect.bind(self)}
             isOrdered={true}

@@ -1,6 +1,6 @@
 # MyReads: A Book Tracking App
 
-In this project, we use React to create a bookshelf app that allows you to select and categorize books you have read, are currently reading, or want to read.
+In this project, we use React to create a responsive bookshelf app that allows you to select and categorize books you have read, are currently reading, or want to read.
 
 ## Functionality
 
